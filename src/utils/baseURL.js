@@ -1,7 +1,7 @@
 export const getBaseUrl = () => {
     // Check if environment variable is available (Render will set this)
-    if (import.meta.env.VITE_BACKEND_URL) {
-        return import.meta.env.VITE_BACKEND_URL;
+    if (import.meta.env.VITE_API_BASE_URL) {
+        return import.meta.env.VITE_API_BASE_URL;
     }
     
     // Check if we're in development or production
