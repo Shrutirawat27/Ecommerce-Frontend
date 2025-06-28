@@ -20,8 +20,7 @@ const Categories = () => {
                     key={category.name}
                     to={`/categories/${category.path}`} 
                     className='categories__card'
-                    onClick={() => console.log("Clicked Category:", category.path)}
-                >
+                    onClick={() => console.log("Clicked Category:", category.path)}>
                     <img src={category.image} alt={category.name} />
                     <h4>{category.name}</h4>
                 </Link>

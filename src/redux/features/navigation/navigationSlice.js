@@ -14,8 +14,5 @@ const navigationSlice = createSlice({
   },
 });
 
-// Export the action
 export const { navigateTo } = navigationSlice.actions;
-
-// Export the reducer
 export default navigationSlice.reducer;

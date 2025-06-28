@@ -22,7 +22,6 @@ const cartSlice = createSlice({
                 console.log("Items already added")
             };
 
-
             state.selectedItems = setSelectedItems(state);
             state.totalPrice = setTotalPrice(state);
             state.tax = setTax(state);

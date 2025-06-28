@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ProductCards from './ProductCards';
+import { getBaseUrl } from "../../utils/baseURL";
 
 const TrendingProducts = () => {
     const [visibleProducts, setVisibleProducts] = useState(8);
@@ -8,12 +9,11 @@ const TrendingProducts = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        // Fetch products from the API (adjust the URL to match your backend)
         const fetchProducts = async () => {
             try {
-                const response = await fetch('http://localhost:3000/api/products'); // Adjust the URL to your API endpoint
+                const response = await fetch(`${getBaseUrl()}/api/products`); 
                 const data = await response.json();
-                setProducts(data.products); // Assuming the API returns products in { products: [...] }
+                setProducts(data.products); 
             } catch (error) {
                 console.error('Error fetching products:', error);
             }
@@ -26,7 +26,6 @@ const TrendingProducts = () => {
         setVisibleProducts(prevCount => prevCount + 4);
     };
 
-    // Handle product click by navigating to the product details page
     const handleProductClick = (productId) => {
         navigate(`/shop/${productId}`);
     };

@@ -18,11 +18,11 @@ const Footer = () => {
         </div>
         <div className="flex items-center space-x-3">
           <img src="/mail.png" alt="Mail" className="w-6 h-6 object-contain" />
-          <p>support@gmail.com</p>
+          <p>shruti@gmail.com</p>
         </div>
         <div className="flex items-center space-x-3">
           <img src="/phone.png" alt="Phone Number" className="w-6 h-6 object-contain" />
-          <p>(+012) 4324 246</p>
+          <p>(+91) 1234567890</p>
         </div>
 
         </div>

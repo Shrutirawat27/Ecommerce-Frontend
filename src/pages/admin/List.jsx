@@ -42,7 +42,6 @@ const List = () => {
       if (response.status === 200) {
         toast.success(response.data.message || "Product deleted successfully");
   
-        // Remove from local state instead of calling API again
         setList((prevList) => prevList.filter((item) => item._id !== _id));
       } else {
         toast.error(response.data.message || "Failed to delete product");
@@ -96,8 +95,7 @@ const List = () => {
                   <td className="py-3 px-4 text-center">
                     <button
                       onClick={() => removeProduct(item._id)}
-                      className="text-red-600 hover:text-red-800"
-                    >
+                      className="text-red-600 hover:text-red-800">
                       Delete
                     </button>
                   </td>

@@ -18,17 +18,15 @@ const Add = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if user has admin role
     if (!user || user.role !== 'admin') {
       toast.error("You need admin access to add products");
-      navigate('/'); // Redirect non-admin users
+      navigate('/'); 
     }
   }, [user, navigate]);
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     
-    // Validate required fields
     if (!name.trim()) {
       toast.error("Product name is required");
       return;
@@ -44,7 +42,6 @@ const Add = () => {
       return;
     }
 
-    // Check if user has admin role again before submission
     if (!user || user.role !== 'admin') {
       toast.error("Admin privileges required");
       return;
@@ -53,7 +50,6 @@ const Add = () => {
     setLoading(true);
     
     try {
-      // Get the token
       const token = localStorage.getItem('token');
       if (!token) {
         toast.error("Authentication required. Please log in.");
@@ -69,11 +65,11 @@ const Add = () => {
       formData.append("color", color);
       formData.append("image1", image1);
 
-      console.log("Sending product data to server:");
-      console.log("Name:", name);
-      console.log("Price:", price);
-      console.log("Category:", category);
-      console.log("Image:", image1 ? image1.name : "No image");
+      // console.log("Sending product data to server:");
+      // console.log("Name:", name);
+      // console.log("Price:", price);
+      // console.log("Category:", category);
+      // console.log("Image:", image1 ? image1.name : "No image");
 
       const response = await axios.post(
         `${getBaseUrl()}/api/products/create-product`, 
@@ -87,18 +83,15 @@ const Add = () => {
         }
       );
       
-      console.log("Server response:", response);
+      // console.log("Server response:", response);
       
       if (response.data && response.data._id) {
         toast.success("Product added successfully!");
-        // Reset form
         setName('');
         setDescription('');
         setImage1(null);
         setPrice('');
         setOldPrice('');
-        
-        // Navigate to the list page to see the new product
         setTimeout(() => {
           navigate('/list-items');
         }, 2000);
@@ -112,7 +105,6 @@ const Add = () => {
         console.error("Response data:", error.response.data);
         console.error("Response status:", error.response.status);
         
-        // Display the specific error from the server if available
         const errorMessage = error.response.data?.message || error.response.data?.error || "Server error";
         toast.error(`Failed to add product: ${errorMessage}`);
       } else if (error.request) {
@@ -126,7 +118,6 @@ const Add = () => {
     }
   };
 
-  // If not an admin user, show a message instead of the form
   if (!user || user.role !== 'admin') {
     return (
       <div className="container mx-auto px-4 py-8">

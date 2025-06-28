@@ -4,7 +4,7 @@ import { setOrders } from "../features/products/productsSlice";
 
 const OrderPlacement = () => {
   const dispatch = useDispatch();
-  const existingOrders = useSelector((state) => state.products.orders); // Get existing orders
+  const existingOrders = useSelector((state) => state.products.orders); 
 
   const handlePlaceOrder = async () => {
     const userId = localStorage.getItem("userId");
@@ -32,11 +32,11 @@ const OrderPlacement = () => {
       });
 
       const data = await response.json();
-      console.log("API Response:", data); // ✅ Debug log
+      console.log("API Response:", data); 
 
       if (response.ok) {
-        dispatch(setOrders([...existingOrders, data])); // ✅ Append order instead of replacing
-        console.log("Updated Redux Orders:", [...existingOrders, data]); // ✅ Debug log
+        dispatch(setOrders([...existingOrders, data])); 
+        console.log("Updated Redux Orders:", [...existingOrders, data]); 
         alert("Order placed successfully!");
       } else {
         console.error("Order placement failed:", data.message);

@@ -1,5 +1,6 @@
 import React from 'react'
 import blogsData from "../../data/blogs.json"
+
 const Blogs = () => {
     //console.log(blogsData)
   return (
@@ -10,7 +11,7 @@ const Blogs = () => {
         {
             blogsData.map((blog, index) => (
                 <div key={index} className='blog__card cursor-pointer hover:scale-105 transition-all duration-300'>
-                    <img src={blog.imageUrl} alt="blog image" />
+                    <img src={blog.imageUrl} alt="blog image" className="w-full h-48 object-cover" />
                     <div className="blog__card__content">
                         <h6>{blog.subtitle}</h6>
                         <h4>{blog.title}</h4>

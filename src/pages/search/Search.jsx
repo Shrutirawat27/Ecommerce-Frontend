@@ -5,14 +5,11 @@ import ProductCards from "../shop/ProductCards";
 const Search = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [triggerSearch, setTriggerSearch] = useState(false);
-  const [products, setProducts] = useState([]); // ✅ Store products locally
-
-  // Fetch search results
+  const [products, setProducts] = useState([]); 
   const { data: filteredProducts = [], isLoading, isError } = useSearchProductsQuery(searchQuery, {
     skip: !triggerSearch || !searchQuery.trim(),
   });
 
-  // ✅ Update local state when API returns new data
   React.useEffect(() => {
     if (filteredProducts.length > 0) {
       setProducts(filteredProducts);
@@ -28,11 +25,10 @@ const Search = () => {
     setTriggerSearch(true);
   };
 
-  // ✅ Handle Clear (reset search & product list)
   const handleClearSearch = () => {
     setSearchQuery("");
     setTriggerSearch(false);
-    setProducts([]); // ✅ Clears displayed products
+    setProducts([]); 
   };
 
   return (

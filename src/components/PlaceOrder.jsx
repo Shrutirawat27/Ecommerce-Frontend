@@ -23,13 +23,10 @@ const PlaceOrder = () => {
   });
   const [formErrors, setFormErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
-  // Get cart data from Redux store
   const { products, selectedItems, totalPrice, tax, grandTotal } = useSelector((store) => store.cart);
   const { currency = '$' } = useSelector((store) => store.products);
   const { user } = useSelector((state) => state.auth);
 
-  // Debug user data
   useEffect(() => {
     console.log("Current user data:", user);
     console.log("Current cart products:", products);
@@ -41,7 +38,7 @@ const PlaceOrder = () => {
       ...formData,
       [name]: value
     });
-    // Clear error for this field when user types
+  
     if (formErrors[name]) {
       setFormErrors({
         ...formErrors,
@@ -91,7 +88,6 @@ const PlaceOrder = () => {
           return;
         }
 
-        // Handle case when user object is missing or malformed
         if (!user) {
           console.error("User data is missing from Redux store");
           alert("User session appears to be invalid. Please try logging in again.");
@@ -99,19 +95,16 @@ const PlaceOrder = () => {
           return;
         }
 
-        // Get userId - check if it's directly on user object or nested
         let userId = user?._id;
         if (!userId && user?.user && user.user._id) {
           userId = user.user._id;
         }
-        
-        // Try getting it directly from localStorage as first fallback
+
         if (!userId) {
           userId = localStorage.getItem("userId");
           console.log("Using userId from localStorage:", userId);
         }
 
-        // If still no userId, try to extract from user object in localStorage
         if (!userId) {
           const userFromStorage = localStorage.getItem("user");
           try {
@@ -129,10 +122,8 @@ const PlaceOrder = () => {
           return;
         }
 
-        // Debug the order data being sent
         console.log("About to send order with userId:", userId);
-        
-        // Try debug mode first
+
         try {
           console.log("Attempting debug checkout first");
           const debugResponse = await fetch(`${getBaseUrl()}/api/orders/checkout-debug`, {
@@ -165,7 +156,7 @@ const PlaceOrder = () => {
           });
           
           const debugData = await debugResponse.json();
-          console.log("Debug checkout response:", debugData);
+          // console.log("Debug checkout response:", debugData);
           
           if (!debugData.isValidObjectId) {
             console.error("Invalid user ID format detected in debug mode");
@@ -174,10 +165,8 @@ const PlaceOrder = () => {
           }
         } catch (debugError) {
           console.error("Debug checkout failed:", debugError);
-          // Continue with regular checkout even if debug fails
         }
         
-        // Prepare order data with cart items and delivery information
         const orderData = {
           userId: userId,
           products: products.map(product => ({
@@ -203,9 +192,7 @@ const PlaceOrder = () => {
         };
         
         console.log("Sending order data:", orderData);
-        
-        // Submit order to backend API - ensure the URL is correct
-        // Try without localhost specific port as it might be different in production
+
         const response = await fetch(`${getBaseUrl()}/api/orders`, {
           method: "POST",
           headers: {
@@ -214,8 +201,7 @@ const PlaceOrder = () => {
           },
           body: JSON.stringify(orderData)
         });
-        
-        // For detailed error handling
+
         let data;
         try {
           data = await response.json();
@@ -226,7 +212,6 @@ const PlaceOrder = () => {
         }
         
         if (response.ok) {
-          // Clear the cart after successful order
           dispatch(clearCart());
           alert('Order placed successfully!');
           navigate('/orders');
@@ -242,7 +227,6 @@ const PlaceOrder = () => {
         setIsSubmitting(false);
       }
     } else {
-      // Scroll to the top to show errors
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };

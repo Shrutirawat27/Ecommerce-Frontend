@@ -18,7 +18,7 @@ const ShopPage = () => {
     const [filtersState, setFiltersState] = useState({
         category: "all",
         color: "all",
-        priceRange: { min: 0, max: Infinity }, // Default price range
+        priceRange: { min: 0, max: Infinity }, 
     });
 
     const [currentPage, setCurrentPage] = useState(1);
@@ -40,7 +40,7 @@ const ShopPage = () => {
     const { products = [], totalPages = 1, totalProducts = 0 } = data || {};
 
     useEffect(() => {
-        console.log("🛍️ Fetched Products:", products);
+        // console.log(" Fetched Products:", products);
     }, [products]);
 
     const handlePageChange = useCallback((pageNumber) => {
@@ -55,7 +55,7 @@ const ShopPage = () => {
             color: "all",
             priceRange: { min: 0, max: Infinity },
         });
-        setCurrentPage(1); // Reset to first page after clearing filters
+        setCurrentPage(1); 
     }, []);
 
     if (isLoading) return <div>Loading...</div>;

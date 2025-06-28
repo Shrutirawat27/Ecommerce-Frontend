@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 const ErrorPage = () => {
   const error = useRouteError();
   const navigate = useNavigate();
-
   const goBack = () => {
     navigate(-1);
   };

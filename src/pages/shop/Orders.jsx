@@ -1,4 +1,3 @@
-// src/pages/shop/Orders.jsx
 import React, { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setOrders } from "../../redux/features/products/productsSlice";
@@ -10,7 +9,6 @@ const Orders = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Create a fetchOrders function that can be called multiple times
   const fetchOrders = useCallback(async () => {
     try {
       const token = localStorage.getItem("token");
@@ -32,7 +30,7 @@ const Orders = () => {
       }
   
       const data = await response.json();
-      console.log("Fetched Orders:", data);
+      // console.log("Fetched Orders:", data);
       dispatch(setOrders(data));
       setError(null);
       return true;
@@ -43,7 +41,6 @@ const Orders = () => {
     }
   }, [dispatch]);
 
-  // Initial data fetch
   useEffect(() => {
     const loadOrders = async () => {
       setLoading(true);
@@ -54,26 +51,22 @@ const Orders = () => {
     loadOrders();
   }, [fetchOrders]);
 
-  // Set up polling for status updates every 30 seconds
   useEffect(() => {
     const intervalId = setInterval(() => {
-      // Only refetch if not in loading state
       if (!loading) {
         fetchOrders();
       }
-    }, 30000); // 30 seconds
+    }, 30000); 
 
     return () => clearInterval(intervalId);
   }, [fetchOrders, loading]);
 
-  // Function to format date
   const formatDate = (dateString) => {
     if (!dateString) return 'N/A';
     const options = { year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
-  // Function to get status color
   const getStatusColor = (status) => {
     switch(status?.toLowerCase()) {
       case 'delivered':
@@ -86,12 +79,10 @@ const Orders = () => {
     }
   };
 
-  // Function to get status text
   const getStatusText = (status) => {
     return status || 'Processing';
   };
 
-  // Function to handle manual refresh
   const handleRefresh = async () => {
     setLoading(true);
     await fetchOrders();

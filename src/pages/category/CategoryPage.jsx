@@ -6,25 +6,20 @@ import ProductCards from '../shop/ProductCards';
 const CategoryPage = () => {
     const { categoryName } = useParams();
     const decodedCategory = decodeURIComponent(categoryName).trim();
-
-    // Fetch all products
     const { data, error, isLoading } = useFetchAllProductsQuery({
         page: 1,
         limit: 100,
     });
 
-    // Debugging API Response
     useEffect(() => {
-        console.log("🔗 URL Category:", categoryName);
-        console.log("🛠 Decoded Category:", decodedCategory);
-        console.log("🚀 Full API Response:", data);  
-        console.log("📌 All Products:", data?.products || []);
+        // console.log("URL Category:", categoryName);
+        // console.log("Decoded Category:", decodedCategory);
+        // console.log("Full API Response:", data);  
+        // console.log("All Products:", data?.products || []);
     }, [data, categoryName]);
 
-    // Ensure products array exists
     const products = data?.products || [];
 
-    // Filter products by category
     const filteredProducts = useMemo(() => {
         if (!decodedCategory || !products.length) return [];
         return products.filter((product) => 

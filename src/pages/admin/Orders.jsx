@@ -45,15 +45,11 @@ const Orders = () => {
     try {
       setIsUpdating(orderId);
       const token = localStorage.getItem('token');
-      
-      // Create API URL using string concatenation to avoid any encoding issues
       const apiUrl = getBaseUrl() + '/api/orders/' + orderId;
       
-      // Log the request details for debugging
-      console.log(`Updating order ${orderId} to status: ${newStatus}`);
-      console.log(`API URL: ${apiUrl}`);
+      // console.log(`Updating order ${orderId} to status: ${newStatus}`);
+      // console.log(`API URL: ${apiUrl}`);
       
-      // Use fetch instead of axios for more direct control
       const response = await fetch(apiUrl, {
         method: 'PATCH',
         headers: {
@@ -63,16 +59,13 @@ const Orders = () => {
         },
         body: JSON.stringify({ status: newStatus })
       });
-      
-      // Check if response is ok
+
       if (!response.ok) {
         throw new Error(`Server returned ${response.status}: ${response.statusText}`);
       }
-      
-      // Parse the response data
+
       const data = await response.json();
-      
-      // Update local state to reflect the change
+
       setOrders(orders.map(order => 
         order._id === orderId ? {...order, status: newStatus} : order
       ));
@@ -118,8 +111,7 @@ const Orders = () => {
         <button 
           onClick={() => fetchOrders()} 
           className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded text-gray-700 transition-colors"
-          disabled={loading}
-        >
+          disabled={loading}>
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
           </svg>

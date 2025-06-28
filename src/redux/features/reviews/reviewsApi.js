@@ -1,37 +1,43 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { getBaseUrl } from '../../../utils/baseURL'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { getBaseUrl } from '../../../utils/baseURL';
 
-export const reviewApi = createApi ({
-    reducerPath: "reviewApi",
-    baseQuery: fetchBaseQuery({
-        baseUrl: `${getBaseUrl()}/api/reviews`,
-        credentials: "include",
+export const reviewApi = createApi({
+  reducerPath: "reviewApi",
+  baseQuery: fetchBaseQuery({
+    baseUrl: `${getBaseUrl()}/api/reviews`,
+    credentials: "include",
+  }),
+  tagTypes: ["Reviews"],
+  endpoints: (builder) => ({
+    postReview: builder.mutation({
+      query: (reviewData) => ({
+        url: "/post-review",
+        method: "POST",
+        body: reviewData,
+      }),
+      invalidatesTags: (result, error, { postId }) => [{ type: "Reviews", _id: postId }],
     }),
-    tagTypes: ["Reviews"],
-    endpoints: (builder) => ({
-        postReview: builder.mutation({
-            query: (reviewData) => ({
-                url: "/post-review",
-                method: "POST",
-                body: reviewData
-            }),
-            invalidatesTags: (result, error, {postId}) => [{type: "Reviews", _id: postId}]
-        }),
-        getReviewsCount: builder.query({
-            query: () => ({
-                url: "/total-reviews"
-            })
-        }),
 
-        getReviewsByUserId: builder.query({
-            query: (userId) => ({
-                url: `/${userId}`
-            }),
-            providesTags: (result) => result ? [{type: "Reviews", _id: result[0]?.email}] : []
-        })
+    getReviewsCount: builder.query({
+      query: () => ({
+        url: "/total-reviews",
+      }),
+      providesTags: ["Reviews"],
+    }),
 
-    })
-})
+    getReviewsByUserId: builder.query({
+      query: (userId) => ({
+        url: `/${userId}`,
+      }),
+      providesTags: (result, error, userId) => [{ type: "Reviews", _id: userId }],
+    }),
+  }),
+});
 
-export const {usePostReviewMutation, useGetReviewsCountQuery, useGetReviewsByUserIdQuery} = reviewApi;
+export const {
+  usePostReviewMutation,
+  useGetReviewsCountQuery,
+  useGetReviewsByUserIdQuery,
+} = reviewApi;
+
 export default reviewApi;

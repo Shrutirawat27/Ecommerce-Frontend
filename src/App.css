@@ -133,8 +133,6 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--primary-color);
 }
 
-/* End of Navbar Styles */
-
 /* Order Status Styles */
 .status-dropdown {
   position: relative;
@@ -197,10 +195,8 @@ h1, h2, h3, h4, h5, h6 {
   border: 1px solid #c8e6c9;
 }
 
-/* End of Order Status Styles */
-
 .header__container {
-  min-height: 650px;
+  min-height: 600px;
   background-color: var(--primary-color-light);
   border-bottom-left-radius: 1rem;
   border-bottom-right-radius: 1rem;
@@ -243,7 +239,7 @@ h1, h2, h3, h4, h5, h6 {
   left: 50%;
   bottom: -5rem;
   transform: translateX(-50%);
-  max-width: 500px;
+  max-width: 400px;
 }
 
 .categories__grid {
@@ -661,8 +657,6 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 }
-
-
 
 @media (width < 600px) {
   .categories__grid {

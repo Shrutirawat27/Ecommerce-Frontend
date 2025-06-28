@@ -8,7 +8,6 @@ const Login = () => {
     const [message, setMessage] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-
     const dispatch = useDispatch();
     const [loginUser, { isLoading }] = useLoginUserMutation();
     const navigate = useNavigate();
@@ -16,14 +15,11 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await loginUser({ email, password }).unwrap();
-
+            const response = await loginUser({ email, password }).unwrap()
             const { token, refreshToken, user } = response;
             localStorage.setItem('token', token);
             localStorage.setItem('refreshToken', refreshToken);
-
             dispatch(setUser({ user }));
-
             alert("Login successful");
             navigate("/");
         } catch (error) {
