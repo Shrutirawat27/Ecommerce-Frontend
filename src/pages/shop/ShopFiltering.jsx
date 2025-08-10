@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { FaTimes } from 'react-icons/fa'; // Make sure you have react-icons installed: npm install react-icons
+import { FaTimes } from 'react-icons/fa'; 
 
-// The FiltersContent component remains the same.
 const FiltersContent = React.memo(({ filters, filtersState, setFiltersState, clearFilters }) => {
     const handleFilterChange = useCallback(
         (e) => {
@@ -117,7 +116,6 @@ const FiltersContent = React.memo(({ filters, filtersState, setFiltersState, cle
     );
 });
 
-
 const ShopFiltering = ({ filters, filtersState, setFiltersState, clearFilters }) => {
     const [showMobileFilters, setShowMobileFilters] = useState(false);
 
@@ -130,7 +128,7 @@ const ShopFiltering = ({ filters, filtersState, setFiltersState, clearFilters })
 
     return (
         <>
-            {/* Mobile Filters Button - Only appears when the filter sidebar is closed */}
+            {/* Mobile Filters Button */}
             {!showMobileFilters && (
                 <div className="md:hidden p-4 bg-white shadow sticky top-0 flex justify-center z-40">
                     <button

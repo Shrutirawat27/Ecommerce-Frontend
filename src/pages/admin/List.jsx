@@ -60,53 +60,85 @@ const List = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">All Products List</h1>
-        <a href="/add" className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">Add New Product</a>
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
+        <h1 className="text-2xl font-bold text-center sm:text-left">All Products List</h1>
+        <a href="/add" className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 w-full sm:w-auto text-center">
+          Add New Product
+        </a>
       </div>
       
       {list.length === 0 ? (
         <p className="text-center py-8">No products found.</p>
       ) : (
-        <div className="overflow-x-auto bg-white rounded-lg shadow">
-          <table className="min-w-full">
-            <thead className="bg-gray-100">
-              <tr>
-                <th className="py-3 px-4 text-left">Image</th>
-                <th className="py-3 px-4 text-left">Name</th>
-                <th className="py-3 px-4 text-left">Category</th>
-                <th className="py-3 px-4 text-left">Price</th>
-                <th className="py-3 px-4 text-center">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {list.map((item) => (
-                <tr key={item._id} className="border-b hover:bg-gray-50">
-                  <td className="py-3 px-4">
-                    <img 
-                      src={item.image1 || '/fallback-image.png'} 
-                      alt={item.name} 
-                      className="w-16 h-16 object-cover rounded"
-                    />
-                  </td>
-                  <td className="py-3 px-4 font-medium">{item.name}</td>
-                  <td className="py-3 px-4">{item.category}</td>
-                  <td className="py-3 px-4">{currency}{item.price?.toFixed(2)}</td>
-                  <td className="py-3 px-4 text-center">
-                    <button
-                      onClick={() => removeProduct(item._id)}
-                      className="text-red-600 hover:text-red-800">
-                      Delete
-                    </button>
-                  </td>
+        <>
+          {/* Desktop Table View */}
+          <div className="overflow-x-auto bg-white rounded-lg shadow hidden sm:block">
+            <table className="min-w-full">
+              <thead className="bg-gray-100">
+                <tr>
+                  <th className="py-3 px-4 text-left">Image</th>
+                  <th className="py-3 px-4 text-left">Name</th>
+                  <th className="py-3 px-4 text-left">Category</th>
+                  <th className="py-3 px-4 text-left">Price</th>
+                  <th className="py-3 px-4 text-center">Action</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {list.map((item) => (
+                  <tr key={item._id} className="border-b hover:bg-gray-50">
+                    <td className="py-3 px-4">
+                      <img 
+                        src={item.image1 || '/fallback-image.png'} 
+                        alt={item.name} 
+                        className="w-16 h-16 object-cover rounded"
+                      />
+                    </td>
+                    <td className="py-3 px-4 font-medium">{item.name}</td>
+                    <td className="py-3 px-4">{item.category}</td>
+                    <td className="py-3 px-4">{currency}{item.price?.toFixed(2)}</td>
+                    <td className="py-3 px-4 text-center">
+                      <button
+                        onClick={() => removeProduct(item._id)}
+                        className="text-red-600 hover:text-red-800">
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Mobile List View */}
+          <div className="sm:hidden space-y-4">
+            {list.map((item) => (
+              <div key={item._id} className="bg-white rounded-lg shadow p-4 flex items-center justify-between gap-4">
+                <div className="flex items-center gap-4">
+                  <img 
+                    src={item.image1 || '/fallback-image.png'} 
+                    alt={item.name} 
+                    className="w-20 h-20 object-cover rounded"
+                  />
+                  <div>
+                    <h3 className="font-bold text-lg">{item.name}</h3>
+                    <p className="text-gray-600 capitalize">Category: {item.category}</p>
+                    <p className="text-gray-800 font-medium">{currency}{item.price?.toFixed(2)}</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => removeProduct(item._id)}
+                  className="text-red-600 hover:text-red-800 flex-shrink-0"
+                  aria-label={`Delete ${item.name}`}
+                >
+                  Delete
+                </button>
+              </div>
+            ))}
+          </div>
+        </>
       )}
     </div>
   );
 };
 
-export default List; 
+export default List;
