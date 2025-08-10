@@ -117,7 +117,7 @@ const Orders = () => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-12">
+    <div className="max-w-6xl mx-auto px-4 py-12 pt-[100px]">
       <div className="flex justify-between items-center mb-8 border-b pb-4">
         <h1 className="text-3xl font-bold">My Orders</h1>
         <button 
