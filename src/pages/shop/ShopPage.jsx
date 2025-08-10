@@ -15,11 +15,10 @@ const filters = {
 };
 
 const ShopPage = () => {
-  // Store priceRange as string to easily sync with radio button values
   const [filtersState, setFiltersState] = useState({
     category: 'all',
     color: 'all',
-    priceRange: '0-Infinity', // changed to string format
+    priceRange: '0-Infinity',
   });
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -103,39 +102,50 @@ const ShopPage = () => {
       </section>
 
       {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="pagination flex justify-center gap-2 mt-4">
-          {currentPage > 1 && (
-            <button
-              className="pagination-btn bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark transition"
-              onClick={() => handlePageChange(currentPage - 1)}
-            >
-              Previous
-            </button>
-          )}
-          {[...Array(totalPages)].map((_, index) => (
-            <button
-              key={index}
-              className={`pagination-btn px-4 py-2 rounded ${
-                currentPage === index + 1
-                  ? 'bg-primary text-white'
-                  : 'bg-gray-200 text-black hover:bg-gray-300'
-              } transition`}
-              onClick={() => handlePageChange(index + 1)}
-            >
-              {index + 1}
-            </button>
-          ))}
-          {currentPage < totalPages && (
-            <button
-              className="pagination-btn bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark transition"
-              onClick={() => handlePageChange(currentPage + 1)}
-            >
-              Next
-            </button>
-          )}
-        </div>
-      )}
+     {totalPages > 1 && (
+  <div className="pagination flex flex-wrap justify-center gap-2 mt-4">
+    {currentPage > 1 && (
+      <button
+        type="button"
+        onClick={() => handlePageChange(currentPage - 1)}
+        className="pagination-btn !bg-primary !text-white px-4 py-2 rounded hover:!bg-primary-dark transition min-w-[70px] select-none"
+      >
+        Previous
+      </button>
+    )}
+
+    {[...Array(totalPages)].map((_, index) => {
+      const page = index + 1;
+      const isActive = currentPage === page;
+      return (
+        <button
+          key={page}
+          type="button"
+          onClick={() => handlePageChange(page)}
+          className={`pagination-btn px-4 py-2 rounded min-w-[48px] text-center select-none transition
+            ${
+              isActive
+                ? '!bg-primary !text-white'
+                : 'bg-gray-200 text-black hover:bg-gray-300'
+            }
+          `}
+        >
+          {page}
+        </button>
+      );
+    })}
+
+    {currentPage < totalPages && (
+      <button
+        type="button"
+        onClick={() => handlePageChange(currentPage + 1)}
+        className="pagination-btn !bg-primary !text-white px-4 py-2 rounded hover:!bg-primary-dark transition min-w-[70px] select-none"
+      >
+        Next
+      </button>
+    )}
+  </div>
+)}
     </>
   );
 };

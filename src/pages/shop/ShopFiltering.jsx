@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
-const FiltersContent = ({ filters, filtersState, setFiltersState, clearFilters }) => {
-  const handleFilterChange = (e) => {
-    const { name, value } = e.target;
-
-    setFiltersState((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
+const FiltersContent = React.memo(({ filters, filtersState, setFiltersState, clearFilters }) => {
+  // useCallback so handleFilterChange doesn't change every render
+  const handleFilterChange = useCallback(
+    (e) => {
+      const { name, value } = e.target;
+      setFiltersState((prev) => {
+        if (prev[name] === value) return prev; // No state update if value is same
+        return { ...prev, [name]: value };
+      });
+    },
+    [setFiltersState]
+  );
 
   return (
     <div className="space-y-5 flex-shrink-0 p-4 bg-white border rounded-md shadow-md">
@@ -21,7 +24,11 @@ const FiltersContent = ({ filters, filtersState, setFiltersState, clearFilters }
         {filters.categories.map((category) => {
           const id = `category-${category}`;
           return (
-            <div key={id} className="capitalize cursor-pointer flex items-center">
+            <label
+              key={id}
+              htmlFor={id}
+              className="capitalize cursor-pointer flex items-center select-none"
+            >
               <input
                 id={id}
                 type="radio"
@@ -30,10 +37,9 @@ const FiltersContent = ({ filters, filtersState, setFiltersState, clearFilters }
                 checked={filtersState.category === category}
                 onChange={handleFilterChange}
                 className="mr-2"
-                style={{ accentColor: '#2563eb' }}
               />
-              <label htmlFor={id} className="select-none">{category}</label>
-            </div>
+              {category}
+            </label>
           );
         })}
       </div>
@@ -45,7 +51,11 @@ const FiltersContent = ({ filters, filtersState, setFiltersState, clearFilters }
         {filters.colors.map((color) => {
           const id = `color-${color}`;
           return (
-            <div key={id} className="capitalize cursor-pointer flex items-center">
+            <label
+              key={id}
+              htmlFor={id}
+              className="capitalize cursor-pointer flex items-center select-none"
+            >
               <input
                 id={id}
                 type="radio"
@@ -54,10 +64,9 @@ const FiltersContent = ({ filters, filtersState, setFiltersState, clearFilters }
                 checked={filtersState.color === color}
                 onChange={handleFilterChange}
                 className="mr-2"
-                style={{ accentColor: '#2563eb' }}
               />
-              <label htmlFor={id} className="select-none">{color}</label>
-            </div>
+              {color}
+            </label>
           );
         })}
       </div>
@@ -65,10 +74,15 @@ const FiltersContent = ({ filters, filtersState, setFiltersState, clearFilters }
       {/* Price Filter */}
       <div className="flex flex-col space-y-2">
         <h4 className="font-medium text-lg">Price Range</h4>
+        <hr />
         {filters.priceRange.map((range) => {
           const id = `priceRange-${range.min}-${range.max}`;
           return (
-            <div key={id} className="capitalize cursor-pointer flex items-center">
+            <label
+              key={id}
+              htmlFor={id}
+              className="capitalize cursor-pointer flex items-center select-none"
+            >
               <input
                 id={id}
                 type="radio"
@@ -77,10 +91,9 @@ const FiltersContent = ({ filters, filtersState, setFiltersState, clearFilters }
                 checked={filtersState.priceRange === `${range.min}-${range.max}`}
                 onChange={handleFilterChange}
                 className="mr-2"
-                style={{ accentColor: '#2563eb' }}
               />
-              <label htmlFor={id} className="select-none">{range.label}</label>
-            </div>
+              {range.label}
+            </label>
           );
         })}
       </div>
@@ -89,12 +102,13 @@ const FiltersContent = ({ filters, filtersState, setFiltersState, clearFilters }
       <button
         onClick={clearFilters}
         className="bg-primary text-white py-2 px-6 rounded mt-6 block w-full"
+        type="button"
       >
         Clear All Filters
       </button>
     </div>
   );
-};
+});
 
 const ShopFiltering = ({ filters, filtersState, setFiltersState, clearFilters }) => {
   const [showMobileFilters, setShowMobileFilters] = useState(false);
@@ -114,6 +128,7 @@ const ShopFiltering = ({ filters, filtersState, setFiltersState, clearFilters })
           onClick={() => setShowMobileFilters(true)}
           className="bg-primary text-white px-6 py-2 rounded font-semibold"
           aria-label="Open filters"
+          type="button"
         >
           Filters
         </button>
@@ -140,6 +155,7 @@ const ShopFiltering = ({ filters, filtersState, setFiltersState, clearFilters })
                 onClick={() => setShowMobileFilters(false)}
                 className="text-red-600 font-bold text-2xl leading-none"
                 aria-label="Close filters"
+                type="button"
               >
                 &times;
               </button>
@@ -158,7 +174,7 @@ const ShopFiltering = ({ filters, filtersState, setFiltersState, clearFilters })
         </div>
       )}
 
-      {/* Desktop Filters (hidden on mobile with tailwind) */}
+      {/* Desktop Filters */}
       <div className="hidden md:block">
         <FiltersContent
           filters={filters}
