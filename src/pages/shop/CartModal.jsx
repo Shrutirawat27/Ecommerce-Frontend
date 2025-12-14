@@ -34,7 +34,7 @@ const CartModal = ({ products, isOpen, onClose }) => {
               className="text-gray-600 hover:text-gray-900"
               aria-label="Close Cart"
             >
-              <img src="/close.png" alt="Close" className="w-7 h-7" />
+              <img src="/close.png" alt="Close" className="w-5 h-5" />
             </button>
           </div>
 

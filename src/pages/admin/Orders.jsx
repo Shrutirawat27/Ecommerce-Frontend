@@ -30,7 +30,12 @@ const Orders = () => {
                 }
             });
             
-            setOrders(response.data);
+            const sortedOrders = response.data.sort(
+  (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+);
+
+setOrders(sortedOrders);
+
             console.log("Admin orders:", response.data);
         } catch (err) {
             console.error("Error fetching orders:", err);
@@ -163,7 +168,7 @@ const Orders = () => {
                                             ))}
                                         </td>
                                         <td className="py-3 px-4 font-medium">{currency}{order.totalAmount.toFixed(2)}</td>
-                                        <td className="py-3 px-4">{formatDate(order.orderDate)}</td>
+                                        <td className="py-3 px-4">{formatDate(order.createdAt)}</td>
                                         <td className="py-3 px-4">
                                             <span className={`inline-block px-2 py-1 text-xs rounded-full ${getStatusClass(order.status)}`}>
                                                 {order.status}
@@ -228,7 +233,7 @@ const Orders = () => {
                                     </div>
                                     <div className="flex justify-between items-center mt-2 pt-2 border-t">
                                         <p className="font-bold">Total: {currency}{order.totalAmount.toFixed(2)}</p>
-                                        <p className="text-sm text-gray-500">{formatDate(order.orderDate)}</p>
+                                        <p className="text-sm text-gray-500">{formatDate(order.createdAt)}</p>
                                     </div>
                                     <div className="mt-4">
                                         <label htmlFor={`status-${order._id}`} className="block text-sm font-medium text-gray-700 mb-1">Update Status:</label>

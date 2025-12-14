@@ -146,20 +146,22 @@ const Orders = () => {
         </div>
       ) : (
         <div className="space-y-6">
-          {orders.map((order, index) => (
+          {[...orders]
+  .sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate))
+  .map((order, index) => (
             <div key={order._id || index} className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
               <div className="bg-gray-50 px-6 py-4 border-b flex justify-between items-center">
                 <div>
                   <p className="text-sm text-gray-500">Order ID: <span className="font-medium text-gray-700">{order._id}</span></p>
                   <p className="text-sm text-gray-500">Placed on: <span className="font-medium text-gray-700">{formatDate(order.orderDate)}</span></p>
                 </div>
-                <div className="flex items-center gap-2">
+                {/* <div className="flex items-center gap-2">
                   <div className={`w-3 h-3 rounded-full ${getStatusColor(order.status)}`}></div>
                   <span className={`font-medium ${
                     order.status === 'Delivered' ? 'text-green-700' :
                     order.status === 'Shipped' ? 'text-blue-700' : 'text-yellow-700'
                   }`}>{getStatusText(order.status)}</span>
-                </div>
+                </div> */}
               </div>
               
               <div className="px-6 py-4">
@@ -188,16 +190,22 @@ const Orders = () => {
                 <div>
                   <p className="text-sm font-medium">Total: <span className="text-lg font-bold">{currency} {order.totalAmount?.toFixed(2) || "0.00"}</span></p>
                 </div>
-                {order.status !== 'Delivered' && (
-                  <div className="text-sm text-gray-500 flex items-center">
-                    <span className="mr-2">Status:</span>
-                    <span className={`font-medium px-2 py-1 rounded-full text-xs ${
-                      order.status === 'Shipped' ? 'bg-blue-100 text-blue-800' : 'bg-yellow-100 text-yellow-800'
-                    }`}>
-                      {order.status}
-                    </span>
-                  </div>
-                )}
+<div className="text-sm flex items-center">
+  <span className="mr-2 text-gray-500">Status:</span>
+
+  <span
+    className={`font-medium px-2 py-1 rounded-full text-xs ${
+      order.status === 'Delivered'
+        ? 'bg-green-100 text-green-800'
+        : order.status === 'Shipped'
+        ? 'bg-blue-100 text-blue-800'
+        : 'bg-yellow-100 text-yellow-800'
+    }`}
+  >
+    {order.status || 'Pending'}
+  </span>
+</div>
+
               </div>
             </div>
           ))}

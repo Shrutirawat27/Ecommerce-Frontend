@@ -35,6 +35,9 @@ const Search = () => {
     <>
       <section className="section__container bg-primary-light">
         <h2 className="section__header capitalize">Search Page</h2>
+        <p className="section__subheader text-center">
+          Find your favorite products quickly and easily with our search feature.
+        </p>
       </section>
 
       <section className="section__container">
