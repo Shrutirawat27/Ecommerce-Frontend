@@ -8,8 +8,8 @@ import { Link } from 'react-router-dom';
 const Categories = () => {
     const categories = [
         { name: 'Accessories', path: 'Accessories', image: category1 },
-        { name: 'Dress Collection', path: 'Dress', image: category2 },
-        { name: 'Footwear', path: 'Footwear', image: category3 },
+        { name: 'Dress Collection', path: 'Dresses', image: category2 },
+        { name: 'Footwears', path: 'Footwears', image: category3 },
         { name: 'Cosmetics', path: 'Cosmetics', image: category4 }
     ];
 
