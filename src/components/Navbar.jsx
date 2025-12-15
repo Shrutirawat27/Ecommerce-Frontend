@@ -37,6 +37,7 @@ const Navbar = () => {
         try {
             await logoutUser().unwrap();
             dispatch(logout());
+            localStorage.removeItem("token");
             navigate("/login");
         } catch (err) {
             console.error("Logout error", err);

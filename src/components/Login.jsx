@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLoginUserMutation } from '../redux/features/auth/authApi';
 import { setUser } from '../redux/features/auth/authSlice';
+import { clearOrders } from '../redux/features/products/productsSlice'; // ✅ clear previous orders
 
 const Login = () => {
     const [message, setMessage] = useState('');
@@ -14,12 +15,32 @@ const Login = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
+
+        // ✅ Clear any previous tokens/orders before login
+        localStorage.removeItem('token');
+        localStorage.removeItem('refreshToken');
+        dispatch(clearOrders());
+
         try {
-            const response = await loginUser({ email, password }).unwrap()
-            const { token, refreshToken, user } = response;
+            const response = await loginUser({ email, password }).unwrap();
+
+            // Make sure the property matches what your backend sends
+            const token = response.token || response.accessToken; 
+            const refreshToken = response.refreshToken;
+            const user = response.user;
+
+            if (!token) {
+                setMessage("Login failed: no token returned from server.");
+                return;
+            }
+
+            // ✅ Save new tokens in localStorage
             localStorage.setItem('token', token);
-            localStorage.setItem('refreshToken', refreshToken);
+            if (refreshToken) localStorage.setItem('refreshToken', refreshToken);
+
+            // ✅ Save user in Redux
             dispatch(setUser({ user }));
+
             alert("Login successful");
             navigate("/");
         } catch (error) {
@@ -50,7 +71,8 @@ const Login = () => {
                         {isLoading ? 'Logging in...' : 'Login'}
                     </button>
                 </form>
-                <p className="my-5 text-sm">Don't have an Account? 
+                <p className="my-5 text-sm">
+                    Don't have an Account? 
                     <Link to="/register" className="text-red-500 hover:text-red-700 px-1"> Register </Link>
                 </p>
             </div>

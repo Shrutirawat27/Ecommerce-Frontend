@@ -198,7 +198,7 @@ const Add = () => {
 
         <button 
           type='submit' 
-          className={`w-28 py-3 mt-4 bg-black text-white rounded-md hover:bg-gray-800 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+          className={`w-28 py-3 mt-4 bg-primary hover:!bg-primary-dark text-white rounded-md ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
           disabled={loading}
         >
           {loading ? 'Adding...' : 'ADD'}

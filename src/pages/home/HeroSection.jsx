@@ -7,21 +7,21 @@ const cards = [
 {
     _id: 1,
     image: card1,
-    trend: "2024 Trend",
+    trend: "2025 Trend",
     title: "Womens Shirt"
 },
 
 {
     _id: 2,
     image: card2,
-    trend: "2024 Trend",
+    trend: "2025 Trend",
     title: "Womens Dresses"
 },
 
 {
     _id: 3,
     image: card3,
-    trend: "2024 Trend",
+    trend: "2025 Trend",
     title: "Womens Casuals"
 }
 ]
@@ -35,7 +35,7 @@ const HeroSection = () => {
                 <div className='hero__content'>
                     <p>{card.trend}</p>
                     <h4>{card.title}</h4>
-                    <a href="#">Discover More</a>
+                    <a href="/shop">Discover More</a>
                 </div>
             </div>
         ))

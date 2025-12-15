@@ -7,11 +7,15 @@ const List = () => {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Filters
+  // Filters & search
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('all');
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
+
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 5;
 
   // Update modal
   const [editingProduct, setEditingProduct] = useState(null);
@@ -67,7 +71,6 @@ const List = () => {
     try {
       const token = localStorage.getItem("token");
       const fd = new FormData();
-
       fd.append("name", formData.name);
       fd.append("category", formData.category);
       fd.append("price", formData.price);
@@ -88,10 +91,9 @@ const List = () => {
   };
 
   // Categories for filter
-  const categories = useMemo(() => {
-    return ['all', ...new Set(list.map(p => p.category))];
-  }, [list]);
+  const categories = useMemo(() => ['all', ...new Set(list.map(p => p.category))], [list]);
 
+  // Filtered + searched list
   const filteredList = useMemo(() => {
     return list.filter(item =>
       item.name.toLowerCase().includes(search.toLowerCase()) &&
@@ -100,6 +102,13 @@ const List = () => {
       (maxPrice === '' || item.price <= Number(maxPrice))
     );
   }, [list, search, category, minPrice, maxPrice]);
+
+  // Pagination logic
+  const totalPages = Math.ceil(filteredList.length / ITEMS_PER_PAGE);
+  const paginatedList = filteredList.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
 
   if (loading) return <div className="text-center py-8">Loading...</div>;
 
@@ -120,35 +129,43 @@ const List = () => {
           className="border px-3 py-2 rounded"
           placeholder="Search by name"
           value={search}
-          onChange={e => setSearch(e.target.value)}
+          onChange={e => {
+            setSearch(e.target.value);
+            setCurrentPage(1); // Reset page
+          }}
         />
-
         <select
           className="border px-3 py-2 rounded"
           value={category}
-          onChange={e => setCategory(e.target.value)}
+          onChange={e => {
+            setCategory(e.target.value);
+            setCurrentPage(1); // Reset page
+          }}
         >
           <option value="all">All Categories</option>
-          {categories
-            .filter(c => c !== 'all')
-            .map(c => <option key={c} value={c}>{c}</option>)
-          }
+          {categories.filter(c => c !== 'all').map(c => (
+            <option key={c} value={c}>{c}</option>
+          ))}
         </select>
-
         <input
           type="number"
           placeholder="Min Price"
           className="border px-3 py-2 rounded w-28"
           value={minPrice}
-          onChange={e => setMinPrice(e.target.value)}
+          onChange={e => {
+            setMinPrice(e.target.value);
+            setCurrentPage(1);
+          }}
         />
-
         <input
           type="number"
           placeholder="Max Price"
           className="border px-3 py-2 rounded w-28"
           value={maxPrice}
-          onChange={e => setMaxPrice(e.target.value)}
+          onChange={e => {
+            setMaxPrice(e.target.value);
+            setCurrentPage(1);
+          }}
         />
       </div>
 
@@ -165,7 +182,7 @@ const List = () => {
             </tr>
           </thead>
           <tbody>
-            {filteredList.map(item => (
+            {paginatedList.map(item => (
               <tr key={item._id} className="border-b hover:bg-gray-50">
                 <td className="px-4 py-3 text-center">
                   <img
@@ -177,18 +194,8 @@ const List = () => {
                 <td className="px-4 py-3">{item.category}</td>
                 <td className="px-4 py-3">{currency}{item.price}</td>
                 <td className="px-4 py-3 text-center space-x-4">
-                  <button
-                    className="text-blue-600 hover:underline"
-                    onClick={() => openEditModal(item)}
-                  >
-                    Update
-                  </button>
-                  <button
-                    className="text-red-600 hover:underline"
-                    onClick={() => removeProduct(item._id)}
-                  >
-                    Delete
-                  </button>
+                  <button className="text-blue-600 hover:underline" onClick={() => openEditModal(item)}>Update</button>
+                  <button className="text-red-600 hover:underline" onClick={() => removeProduct(item._id)}>Delete</button>
                 </td>
               </tr>
             ))}
@@ -196,44 +203,49 @@ const List = () => {
         </table>
       </div>
 
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex justify-center gap-2 mt-6">
+          {Array.from({ length: totalPages }, (_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrentPage(i + 1)}
+              className={`px-3 py-1 border rounded ${currentPage === i + 1 ? 'bg-primary text-white' : 'bg-white'}`}
+            >
+              {i + 1}
+            </button>
+          ))}
+        </div>
+      )}
+
       {/* Update Modal */}
       {editingProduct && (
         <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded w-96 space-y-4">
             <h2 className="font-bold text-lg">Update Product</h2>
-
             <input
               className="border p-2 w-full"
               value={formData.name}
               onChange={e => setFormData({ ...formData, name: e.target.value })}
             />
-
             <input
               className="border p-2 w-full"
               value={formData.category}
               onChange={e => setFormData({ ...formData, category: e.target.value })}
             />
-
             <input
               type="number"
               className="border p-2 w-full"
               value={formData.price}
               onChange={e => setFormData({ ...formData, price: e.target.value })}
             />
-
             <input
               type="file"
               onChange={e => setFormData({ ...formData, image1: e.target.files[0] })}
             />
-
             <div className="flex justify-end gap-4">
               <button onClick={() => setEditingProduct(null)}>Cancel</button>
-              <button
-                className="bg-blue-600 text-white px-4 py-2 rounded"
-                onClick={handleUpdate}
-              >
-                Save
-              </button>
+              <button className="bg-blue-600 text-white px-4 py-2 rounded" onClick={handleUpdate}>Save</button>
             </div>
           </div>
         </div>
