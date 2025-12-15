@@ -5,7 +5,7 @@ import { useFetchAllProductsQuery } from '../../redux/features/products/products
 
 const filters = {
   categories: ['all', 'accessories', 'dresses', 'footwears', 'cosmetics'],
-  colors: ['all', 'black', 'red', 'gold', 'blue', 'silver', 'beige', 'green'],
+  colors: ['all', 'black', 'red', 'gold', 'blue', 'silver', 'beige', 'green', 'pink', 'orange', 'yellow', 'brown', 'white', 'purple', 'gray'],
   priceRange: [
     { label: 'Under $50', min: 0, max: 50 },
     { label: '$50-$100', min: 50, max: 100 },
