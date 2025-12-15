@@ -193,6 +193,13 @@ const Add = () => {
             <option value="Beige">Beige</option>
             <option value="Gold">Gold</option>
             <option value="Silver">Silver</option>
+            <option value="Pink">Pink</option>
+            <option value="Orange">Orange</option>
+            <option value="Yellow">Yellow</option>
+            <option value="Brown">Brown</option>
+            <option value="White">White</option>
+            <option value="Purple">Purple</option>
+            <option value="Gray">Gray</option>
           </select>
         </div>
 
