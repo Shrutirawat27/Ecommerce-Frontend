@@ -166,8 +166,8 @@ const Add = () => {
             <p className='mb-2'>Product Category <span className="text-red-500">*</span></p>
             <select onChange={(e) => setCategory(e.target.value)} value={category} className='w-full border border-gray-300 rounded-md px-4 py-2'>
               <option value="Accessories">Accessories</option>
-              <option value="Dress">Dress</option>
-              <option value="Footwear">Footwear</option>
+              <option value="Dresses">Dresses</option>
+              <option value="Footwears">Footwears</option>
               <option value="Cosmetics">Cosmetics</option>
             </select>
           </div>

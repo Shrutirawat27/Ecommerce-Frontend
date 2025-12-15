@@ -165,25 +165,26 @@ const Orders = () => {
               </div>
               
               <div className="px-6 py-4">
-                {order.products?.map((product, i) => (
-                  <div key={`${order._id}-${i}`} className="flex py-4 border-b last:border-0">
-                    <div className="w-20 h-20 flex-shrink-0 bg-gray-100 rounded overflow-hidden">
-                      <img 
-                        src={product.productId?.image1 || "/default-product.png"} 
-                        alt={product.productId?.name || "Product"} 
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    
-                    <div className="ml-4 flex-grow">
-                      <h3 className="font-medium">{product.productId?.name || "Product"}</h3>
-                      <div className="flex mt-1 text-sm text-gray-700">
-                        <p className="mr-4">{currency} {product.productId?.price?.toFixed(2) || "0.00"}</p>
-                        <p>Qty: {product.quantity}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+{order.products?.map((product, i) => (
+  <div key={`${order._id}-${i}`} className="flex py-4 border-b last:border-0">
+    <div className="w-20 h-20 flex-shrink-0 bg-gray-100 rounded overflow-hidden">
+      <img 
+        src={product.image || product.productId?.image1 || "/default-product.png"} 
+        alt={product.name || product.productId?.name || "Product"} 
+        className="w-full h-full object-cover"
+      />
+    </div>
+    
+    <div className="ml-4 flex-grow">
+      <h3 className="font-medium">{product.name || product.productId?.name || "Product"}</h3>
+      <div className="flex mt-1 text-sm text-gray-700">
+        <p className="mr-4">{currency} {(product.price ?? product.productId?.price)?.toFixed(2) || "0.00"}</p>
+        <p>Qty: {product.quantity}</p>
+      </div>
+    </div>
+  </div>
+))}
+
               </div>
               
               <div className="bg-gray-50 px-6 py-4 flex justify-between items-center">
