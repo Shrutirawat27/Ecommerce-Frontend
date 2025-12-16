@@ -12,66 +12,34 @@ const ProductCards = ({ products }) => {
   };
 
   return (
-    <div
-      className="
-        grid
-        grid-cols-2          /* 📱 Mobile → 2 products */
-        sm:grid-cols-2
-        md:grid-cols-3
-        lg:grid-cols-4
-        gap-3 sm:gap-6
-      "
-    >
+    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
       {products.map((product) => (
         <div
           key={product._id}
-          className="
-            product__card
-            bg-white
-            rounded-md
-            shadow-sm
-            hover:shadow-md
-            transition
-          "
+          className="bg-white rounded-md shadow-sm hover:shadow-md transition"
         >
           {/* IMAGE */}
           <div className="relative overflow-hidden rounded-t-md">
             <Link to={`/shop/${product._id}`}>
-              <div className="w-full aspect-[3/4]">
+              <div className="w-full aspect-[3/4] md:aspect-[4/5] lg:aspect-[3/4] max-h-80 md:max-h-72 lg:max-h-64">
                 <img
                   src={product.image1}
                   alt={product.name || 'Product image'}
                   loading="lazy"
-                  className="
-                    w-full h-full
-                    object-cover
-                    hover:scale-105
-                    transition-all duration-300
-                  "
+                  className="w-full h-full object-cover hover:scale-105 transition duration-300"
                 />
               </div>
             </Link>
 
-            {/* ADD TO CART ICON */}
+            {/* ADD TO CART */}
             <button
               onClick={(e) => {
                 e.stopPropagation();
                 handleAddToCart(product);
               }}
-              aria-label="Add to cart"
-              className="
-                absolute top-2 right-2
-                bg-primary
-                p-1.5
-                rounded
-                hover:bg-primary-dark
-              "
+              className="absolute top-2 right-2 bg-primary p-1.5 rounded hover:bg-primary-dark"
             >
-              <img
-                src="/shopping-cart.png"
-                alt="Add to cart"
-                className="h-5 w-5"
-              />
+              <img src="/shopping-cart.png" alt="Add to cart" className="h-5 w-5" />
             </button>
           </div>
 
@@ -84,9 +52,7 @@ const ProductCards = ({ products }) => {
             <p className="text-sm font-semibold mt-1">
               ${product.price}
               {product.oldPrice && (
-                <s className="ml-2 text-gray-400 text-xs">
-                  ${product.oldPrice}
-                </s>
+                <s className="ml-2 text-xs text-gray-400">${product.oldPrice}</s>
               )}
             </p>
 
