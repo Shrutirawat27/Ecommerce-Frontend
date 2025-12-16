@@ -69,6 +69,7 @@ const authApi = createApi({
         body: newUser,
       }),
     }),
+
     loginUser: builder.mutation({
       query: (credentials) => ({
         url: "/login",
@@ -76,12 +77,14 @@ const authApi = createApi({
         body: credentials,
       }),
     }),
+
     logoutUser: builder.mutation({
       query: () => ({
         url: "/logout",
         method: "POST",
       }),
     }),
+
     getUser: builder.query({
       query: () => ({
         url: "/users",
@@ -90,6 +93,7 @@ const authApi = createApi({
       providesTags: ["User"],
       refetchOnMountOrArgChange: true,
     }),
+
     deleteUser: builder.mutation({
       query: (userId) => ({
         url: `/users/${userId}`,
@@ -97,6 +101,7 @@ const authApi = createApi({
       }),
       invalidatesTags: ["User"],
     }),
+
     updateUserRole: builder.mutation({
       query: ({ userId, role }) => ({
         url: `/users/${userId}`,
@@ -105,6 +110,7 @@ const authApi = createApi({
       }),
       invalidatesTags: ["User"],
     }),
+    
     editProfile: builder.mutation({
       query: (profileData) => {
         const isFormData = profileData instanceof FormData;

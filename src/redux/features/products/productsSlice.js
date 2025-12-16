@@ -13,13 +13,16 @@ const productsSlice = createSlice({
     setAllProducts: (state, action) => {
       state.allProducts = action.payload;
     },
+
     setOrders: (state, action) => {
       console.log("Updated Orders:", action.payload);
       state.orders = action.payload;
     },
+
     clearOrders: (state) => {
       state.orders = [];
     },
+
     setCurrency: (state, action) => {
       state.currency = action.payload;
     },
