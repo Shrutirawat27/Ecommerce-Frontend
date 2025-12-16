@@ -135,7 +135,7 @@ const Orders = () => {
     <div className="container mx-auto px-4 pt-24 pb-8">
       <h1 className="text-2xl font-bold mb-4">Customer Orders</h1>
 
-      {/* FILTERS */}
+      {/* Filters */}
       <div className="flex flex-col md:flex-row gap-4 mb-6">
         <input
           type="text"
@@ -154,8 +154,7 @@ const Orders = () => {
           onChange={e => {
             setStatusFilter(e.target.value);
             setCurrentPage(1);
-          }}
-        >
+          }}>
           <option value="All">All Status</option>
           <option value="Pending">Pending</option>
           <option value="Shipped">Shipped</option>
@@ -165,8 +164,7 @@ const Orders = () => {
         <select
           className="border px-3 py-2 rounded"
           value={sortOption}
-          onChange={e => setSortOption(e.target.value)}
-        >
+          onChange={e => setSortOption(e.target.value)}>
           <option value="dateDesc">Date: Newest</option>
           <option value="dateAsc">Date: Oldest</option>
           <option value="totalDesc">Total: High → Low</option>
@@ -174,7 +172,7 @@ const Orders = () => {
         </select>
       </div>
 
-      {/* MOBILE VIEW */}
+      {/* Mobile View */}
       <div className="md:hidden space-y-4">
         {paginatedOrders.map(order => (
           <div key={order._id} className="bg-white p-4 rounded shadow space-y-3">
@@ -219,8 +217,7 @@ const Orders = () => {
                 onChange={e =>
                   updateOrderStatus(order._id, e.target.value)
                 }
-                className={`px-2 py-1 rounded text-xs ${getStatusClass(order.status)}`}
-              >
+                className={`px-2 py-1 rounded text-xs ${getStatusClass(order.status)}`}>
                 <option value="Pending">Pending</option>
                 <option value="Shipped">Shipped</option>
                 <option value="Delivered">Delivered</option>
@@ -234,7 +231,7 @@ const Orders = () => {
         ))}
       </div>
 
-      {/* DESKTOP VIEW */}
+      {/* Desktop View */}
       <div className="hidden md:block overflow-x-auto bg-white rounded shadow">
         <table className="min-w-full text-sm">
           <thead className="bg-gray-200">
@@ -298,8 +295,7 @@ const Orders = () => {
                     onChange={e =>
                       updateOrderStatus(order._id, e.target.value)
                     }
-                    className={`px-2 py-1 rounded text-xs ${getStatusClass(order.status)}`}
-                  >
+                    className={`px-2 py-1 rounded text-xs ${getStatusClass(order.status)}`}>
                     <option value="Pending">Pending</option>
                     <option value="Shipped">Shipped</option>
                     <option value="Delivered">Delivered</option>
@@ -311,7 +307,7 @@ const Orders = () => {
         </table>
       </div>
 
-      {/* PAGINATION */}
+      {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex justify-center gap-2 mt-6">
           {Array.from({ length: totalPages }, (_, i) => (
@@ -321,9 +317,7 @@ const Orders = () => {
               className={`px-3 py-1 border rounded ${
                 currentPage === i + 1
                   ? 'bg-primary text-white'
-                  : 'bg-white'
-              }`}
-            >
+                  : 'bg-white'}`}>
               {i + 1}
             </button>
           ))}

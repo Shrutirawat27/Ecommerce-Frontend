@@ -28,24 +28,21 @@ const PostAReview = ({ isModalOpen, handleClose, refetchProduct }) => {
     };
 
     try {
-  await postReview(newComment).unwrap();
-  alert('Review posted successfully!');
-  setComment('');
-  setRating(0);
-  if (refetchProduct) await refetchProduct(); 
-  handleClose();
-} catch (error) {
-  alert(error?.data?.message || error.message || 'Failed to post review');
-}
-
+      await postReview(newComment).unwrap();
+      alert('Review posted successfully!');
+      setComment('');
+      setRating(0);
+      if (refetchProduct) await refetchProduct(); 
+      handleClose();
+    } catch (error) {
+        alert(error?.data?.message || error.message || 'Failed to post review');
+   }
   };
 
   return (
     <div
       className={`fixed inset-0 bg-black/80 flex items-center justify-center z-50 px-4 transition-all duration-200 ${
-        isModalOpen ? 'visible' : 'hidden'
-      }`}
-    >
+        isModalOpen ? 'visible' : 'hidden'}`}>
       <div className="bg-white p-6 rounded-lg shadow-xl w-full max-w-md relative z-50">
         <h2 className="text-lg font-semibold mb-4">Post a Review</h2>
 
@@ -56,8 +53,7 @@ const PostAReview = ({ isModalOpen, handleClose, refetchProduct }) => {
               key={star}
               onClick={() => setRating(star)}
               className="cursor-pointer"
-              aria-label={`Rate ${star} star`}
-            >
+              aria-label={`Rate ${star} star`}>
               <img
                 src={rating >= star ? '/yellow_star_filled.png' : '/yellow_star_empty.png'}
                 alt={rating >= star ? 'filled star' : 'empty star'}
@@ -73,21 +69,19 @@ const PostAReview = ({ isModalOpen, handleClose, refetchProduct }) => {
           onChange={(e) => setComment(e.target.value)}
           rows="4"
           className="w-full border border-gray-300 p-2 rounded mb-4 focus:outline-primary resize-none"
-          placeholder="Write your review here..."
-        ></textarea>
+          placeholder="Write your review here...">
+        </textarea>
 
         {/* Actions */}
         <div className="flex justify-end gap-2">
           <button
             onClick={handleClose}
-            className="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded"
-          >
+            className="px-4 py-2 bg-gray-300 hover:bg-gray-400 rounded">
             Cancel
           </button>
           <button
             onClick={handleSubmit}
-            className="px-4 py-2 bg-primary text-white hover:bg-primary-dark rounded"
-          >
+            className="px-4 py-2 bg-primary text-white hover:bg-primary-dark rounded">
             Submit
           </button>
         </div>

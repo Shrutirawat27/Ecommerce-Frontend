@@ -12,19 +12,21 @@ const Footer = () => {
     <footer className="section__container footer__container">
         <div className="footer__col">
             <h4>CONTACT INFO</h4>
+
         <div className="flex items-center space-x-3">
           <img src="/map.png" alt="Map" className="w-6 h-6 object-contain" />
           <p>123, London Bridge Street, London</p>
         </div>
+
         <div className="flex items-center space-x-3">
           <img src="/mail.png" alt="Mail" className="w-6 h-6 object-contain" />
           <p>shruti@gmail.com</p>
         </div>
+        
         <div className="flex items-center space-x-3">
           <img src="/phone.png" alt="Phone Number" className="w-6 h-6 object-contain" />
           <p>(+91) 1234567890</p>
         </div>
-
         </div>
 
         <div className="footer__col">

@@ -11,7 +11,7 @@ const About = () => {
         </p>
       </section>
 
-      {/* About Section - Stable Layout */}
+      {/* About Section */}
       <div className="max-w-screen-lg mx-auto px-4 sm:px-6 md:px-10">
         <div className="flex flex-col md:flex-row justify-center items-center gap-10 my-10 flex-wrap">
           <img

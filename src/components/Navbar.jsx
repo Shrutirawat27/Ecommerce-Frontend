@@ -49,7 +49,6 @@ const Navbar = () => {
         { label: "ORDERS", path: "/dashboard/order" },
     ];
     
-    // Define a standard size for all icons/avatars to ensure consistent alignment
     const ICON_SIZE_CLASS = "h-7 w-7"; 
 
     return (
@@ -77,18 +76,14 @@ const Navbar = () => {
                     </ul>
                 </div>
 
-                {/* Icons - ADDED 'gap-5' for slight spacing adjustment for better look */}
+                {/* Icons */}
                 <div className="flex items-center space-x-6">
-                    {/* Search Icon */}
                     <Link to="/search">
-                        {/* FiSearch is an SVG/Icon, setting the size via text-2xl is fine, but h/w ensures consistency */}
                         <FiSearch className={`${ICON_SIZE_CLASS} text-gray-800 hover:scale-110 transition-transform`} />
                     </Link>
 
-                    {/* Cart Icon */}
                     <div className="relative">
                         <button onClick={() => setIsCartOpen(!isCartOpen)} className="flex items-center">
-                            {/* Standardized size: h-7 w-7 */}
                             <img src="/shopping-bag.png" alt="Cart" className={`${ICON_SIZE_CLASS} hover:scale-110 transition-transform`} />
                             {products.length > 0 && (
                                 <span className="absolute -top-2 -right-2 h-5 w-5 text-xs text-white font-bold bg-primary rounded-full flex items-center justify-center">
@@ -98,17 +93,11 @@ const Navbar = () => {
                         </button>
                     </div>
 
-                    {/* User Avatar/Login Icon */}
                     <div ref={dropdownRef} className="relative">
                         {user ? (
                             <>
                                 <button onClick={handleDropDownToggle} className="flex items-center">
-                                    <img
-                                        src={user?.profileImage || avatarImg}
-                                        alt="User"
-                                        // Standardized size (h-7 w-7) for alignment, rounded for avatar style
-                                        className={`h-8 w-8 rounded-full object-cover border hover:scale-105 transition-transform`}
-                                    />
+                                    <img src={user?.profileImage || avatarImg} alt="User" className={`h-8 w-8 rounded-full object-cover border hover:scale-105 transition-transform`}/>
                                 </button>
                                 {isDropDownOpen && (
                                     <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-md py-1 z-50 border">
@@ -117,15 +106,13 @@ const Navbar = () => {
                                                 key={index}
                                                 to={menu.path}
                                                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                                onClick={() => setIsDropDownOpen(false)}
-                                            >
+                                                onClick={() => setIsDropDownOpen(false)}>
                                                 {menu.label}
                                             </Link>
                                         ))}
                                         <button
                                             onClick={handleLogout}
-                                            className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                                        >
+                                            className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                             Logout
                                         </button>
                                     </div>
@@ -133,18 +120,15 @@ const Navbar = () => {
                             </>
                         ) : (
                             <Link to="/login" className="flex items-center">
-                                {/* Standardized size: h-7 w-7 */}
                                 <img src="/profile.png" alt="Login" className={`${ICON_SIZE_CLASS} hover:scale-110 transition-transform`} />
                             </Link>
                         )}
                     </div>
 
                     {/* Hamburger Button - mobile only */}
-                    <button
-                        className="lg:hidden text-gray-800"
-                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                    >
-                        {/* Standardize SVG size to match ICON_SIZE_CLASS or h-6 w-6 */}
+                    <button className="lg:hidden text-gray-800"
+                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+                            
                         {isMobileMenuOpen ? (
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none"
                               viewBox="0 0 24 24" stroke="currentColor">
@@ -162,7 +146,7 @@ const Navbar = () => {
                 </div>
             </nav>
 
-            {/* Mobile Nav Links (Remaining the same) */}
+            {/* Mobile Nav Links */}
             {isMobileMenuOpen && (
                 <div className="lg:hidden px-4 mt-2 pb-3 bg-white shadow-sm border-t">
                     <ul className="flex flex-col gap-3">

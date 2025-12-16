@@ -32,8 +32,7 @@ const OrderSummary = ({ onCloseCart }) => {
           <button
             type="button"
             onClick={handleClearCart}
-            className="bg-red-500 px-3 py-1.5 text-black rounded-md flex items-center mb-4 hover:bg-red-600"
-          >
+            className="bg-red-500 px-3 py-1.5 text-black rounded-md flex items-center mb-4 hover:bg-red-600">
             <span className="mr-2">Clear Cart</span>
             <img src="/trash.png" alt="Delete cart" className="w-5 h-5" />
           </button>
@@ -41,8 +40,7 @@ const OrderSummary = ({ onCloseCart }) => {
           <button
             type="button"
             onClick={handleProceedCheckout}
-            className="bg-green-600 px-3 py-2 text-black rounded-md flex items-center hover:bg-green-700"
-          >
+            className="bg-green-600 px-3 py-2 text-black rounded-md flex items-center hover:bg-green-700">
             <span className="mr-2">Proceed Checkout</span>
             <img src="/credit-card.png" alt="Checkout" className="w-5 h-5" />
           </button>

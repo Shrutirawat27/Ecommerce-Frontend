@@ -238,6 +238,7 @@ const PlaceOrder = () => {
         <div className="text-xl sm:text-2xl my-3">
           <h1>Delivery Information</h1>
         </div>
+
         <div className="flex gap-3">
           <div className="w-full">
             <input
@@ -251,6 +252,7 @@ const PlaceOrder = () => {
             />
             {formErrors.firstName && <p className="text-red-500 text-xs mt-1">{formErrors.firstName}</p>}
           </div>
+
           <div className="w-full">
             <input
               className={`border ${formErrors.lastName ? 'border-red-500' : 'border-gray-300'} rounded py-1.5 px-3.5 w-full`}
@@ -264,6 +266,7 @@ const PlaceOrder = () => {
             {formErrors.lastName && <p className="text-red-500 text-xs mt-1">{formErrors.lastName}</p>}
           </div>
         </div>
+
         <div>
           <input
             className={`border ${formErrors.email ? 'border-red-500' : 'border-gray-300'} rounded py-1.5 px-3.5 w-full`}
@@ -276,6 +279,7 @@ const PlaceOrder = () => {
           />
           {formErrors.email && <p className="text-red-500 text-xs mt-1">{formErrors.email}</p>}
         </div>
+
         <div>
           <input
             className={`border ${formErrors.street ? 'border-red-500' : 'border-gray-300'} rounded py-1.5 px-3.5 w-full`}
@@ -288,11 +292,12 @@ const PlaceOrder = () => {
           />
           {formErrors.street && <p className="text-red-500 text-xs mt-1">{formErrors.street}</p>}
         </div>
+
         <div className="flex gap-3">
           <div className="w-full">
-          <input
+            <input
               className={`border ${formErrors.city ? 'border-red-500' : 'border-gray-300'} rounded py-1.5 px-3.5 w-full`}
-            type="text"
+              type="text"
               name="city"
               placeholder="City *"
               value={formData.city}
@@ -301,10 +306,11 @@ const PlaceOrder = () => {
             />
             {formErrors.city && <p className="text-red-500 text-xs mt-1">{formErrors.city}</p>}
           </div>
+
           <div className="w-full">
-          <input
+            <input
               className={`border ${formErrors.state ? 'border-red-500' : 'border-gray-300'} rounded py-1.5 px-3.5 w-full`}
-            type="text"
+              type="text"
               name="state"
               placeholder="State *"
               value={formData.state}
@@ -314,6 +320,7 @@ const PlaceOrder = () => {
             {formErrors.state && <p className="text-red-500 text-xs mt-1">{formErrors.state}</p>}
           </div>
         </div>
+
         <div className="flex gap-3">
           <div className="w-full">
             <input
@@ -327,8 +334,9 @@ const PlaceOrder = () => {
             />
             {formErrors.zipcode && <p className="text-red-500 text-xs mt-1">{formErrors.zipcode}</p>}
           </div>
+
           <div className="w-full">
-          <input
+            <input
               className={`border ${formErrors.country ? 'border-red-500' : 'border-gray-300'} rounded py-1.5 px-3.5 w-full`}
               type="text"
               name="country"
@@ -340,6 +348,7 @@ const PlaceOrder = () => {
             {formErrors.country && <p className="text-red-500 text-xs mt-1">{formErrors.country}</p>}
           </div>
         </div>
+
         <div>
           <input
             className={`border ${formErrors.phone ? 'border-red-500' : 'border-gray-300'} rounded py-1.5 px-3.5 w-full`}
@@ -358,18 +367,22 @@ const PlaceOrder = () => {
       <div className="flex flex-col gap-6 w-full sm:w-[45%] mt-20 sm:mt-0">
         <div className="order-summary bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-lg font-semibold mb-4">Order Summary</h2>
+
           <div className="summary-item flex justify-between items-center mb-3">
             <span className="text-sm text-gray-600">Selected Items:</span>
             <span className="font-medium">{selectedItems}</span>
           </div>
+
           <div className="summary-item flex justify-between items-center mb-3">
             <span className="text-sm text-gray-600">Total Price:</span>
             <span className="font-medium">{currency}{totalPrice.toFixed(2)}</span>
           </div>
+
           <div className="summary-item flex justify-between items-center mb-3">
             <span className="text-sm text-gray-600">Tax (5%):</span>
             <span className="font-medium">{currency}{tax.toFixed(2)}</span>
           </div>
+
           <div className="summary-item flex justify-between items-center border-t-2 pt-3 mt-3">
             <span className="text-sm text-gray-600">Grand Total:</span>
             <span className="font-medium text-xl">{currency}{grandTotal.toFixed(2)}</span>
@@ -381,35 +394,28 @@ const PlaceOrder = () => {
           <div className="flex gap-3 flex-col lg:flex-row">
             <div
               onClick={() => setMethod('stripe')}
-              className="flex items-center gap-3 border p-2 px-3 cursor-pointer"
-            >
-              <p
-                className={`min-w-3.5 h-3.5 border rounded-full ${
-                  method === 'stripe' ? 'bg-green-400' : ''
-                }`}
-              ></p>
+              className="flex items-center gap-3 border p-2 px-3 cursor-pointer">
+              <p className={`min-w-3.5 h-3.5 border rounded-full ${
+                  method === 'stripe' ? 'bg-green-400' : ''}`}>
+              </p>
               <img className="h-5 mx-4" src={stripe_logo} alt="stripe" />
             </div>
+
             <div
               onClick={() => setMethod('razorpay')}
-              className="flex items-center gap-3 border p-2 px-3 cursor-pointer"
-            >
-              <p
-                className={`min-w-3.5 h-3.5 border rounded-full ${
-                  method === 'razorpay' ? 'bg-green-400' : ''
-                }`}
-              ></p>
+              className="flex items-center gap-3 border p-2 px-3 cursor-pointer">
+              <p className={`min-w-3.5 h-3.5 border rounded-full ${
+                  method === 'razorpay' ? 'bg-green-400' : ''}`}>
+              </p>
               <img className="h-5 mx-4" src={razorpay_logo} alt="razorpay" />
             </div>
+            
             <div
               onClick={() => setMethod('cod')}
-              className="flex items-center gap-3 border p-2 px-3 cursor-pointer"
-            >
-              <p
-                className={`min-w-3.5 h-3.5 border rounded-full ${
-                  method === 'cod' ? 'bg-green-400' : ''
-                }`}
-              ></p>
+              className="flex items-center gap-3 border p-2 px-3 cursor-pointer">
+              <p className={`min-w-3.5 h-3.5 border rounded-full ${
+                  method === 'cod' ? 'bg-green-400' : ''}`}>
+              </p>
               <p className="text-gray-500 text-sm font-medium mx-4">
                 Cash On Delivery
               </p>
@@ -420,8 +426,7 @@ const PlaceOrder = () => {
             <button
               onClick={handlePlaceOrder}
               disabled={isSubmitting}
-              className={`bg-black text-white px-16 py-3 text-sm ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
-            >
+              className={`bg-primary hover:!bg-primary-dark text-white px-16 py-3 text-sm ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}>
               {isSubmitting ? 'Processing...' : 'Place Order'}
             </button>
           </div>

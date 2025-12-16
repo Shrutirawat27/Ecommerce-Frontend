@@ -126,8 +126,7 @@ const Add = () => {
           <p>You need administrator privileges to add products.</p>
           <button 
             onClick={() => navigate('/login')} 
-            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-          >
+            className="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
             Login as Admin
           </button>
         </div>
@@ -206,8 +205,7 @@ const Add = () => {
         <button 
           type='submit' 
           className={`w-28 py-3 mt-4 bg-primary hover:!bg-primary-dark text-white rounded-md ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-          disabled={loading}
-        >
+          disabled={loading}>
           {loading ? 'Adding...' : 'ADD'}
         </button>
       </form>

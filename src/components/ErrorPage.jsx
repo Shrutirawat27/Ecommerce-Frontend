@@ -23,14 +23,12 @@ const ErrorPage = () => {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <button 
             onClick={goBack} 
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors"
-          >
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors">
             Go Back
           </button>
           <Link 
             to="/" 
-            className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors"
-          >
+            className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition-colors">
             Go Home
           </Link>
         </div>

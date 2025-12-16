@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useMemo } from 'react';
 import ProductCards from './ProductCards';
 import ShopFiltering from './ShopFiltering';
-import Loader from '/src/components/Loader'; // ✅ IMPORT LOADER
+import Loader from '/src/components/Loader'; 
 import { useFetchAllProductsQuery } from '../../redux/features/products/productsApi';
 
 const filters = {
@@ -103,7 +103,7 @@ const ShopPage = () => {
           {/* Products Area */}
           <div className="flex-1">
             {isLoading ? (
-              <Loader />   // ✅ LOADER HERE
+              <Loader />   
             ) : error ? (
               <div className="text-red-500 text-center">
                 Error loading products
@@ -127,8 +127,7 @@ const ShopPage = () => {
           {currentPage > 1 && (
             <button
               onClick={() => handlePageChange(currentPage - 1)}
-              className="pagination-btn !bg-primary !text-white px-4 py-2 rounded"
-            >
+              className="pagination-btn !bg-primary !text-white px-4 py-2 rounded">
               Previous
             </button>
           )}
@@ -142,9 +141,7 @@ const ShopPage = () => {
                 className={`pagination-btn px-4 py-2 rounded ${
                   currentPage === page
                     ? '!bg-primary !text-white'
-                    : 'bg-gray-200 hover:bg-gray-300'
-                }`}
-              >
+                    : 'bg-gray-200 hover:bg-gray-300'}`}>
                 {page}
               </button>
             );
@@ -153,8 +150,7 @@ const ShopPage = () => {
           {currentPage < totalPages && (
             <button
               onClick={() => handlePageChange(currentPage + 1)}
-              className="pagination-btn !bg-primary !text-white px-4 py-2 rounded"
-            >
+              className="pagination-btn !bg-primary !text-white px-4 py-2 rounded">
               Next
             </button>
           )}

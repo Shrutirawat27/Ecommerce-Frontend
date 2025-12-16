@@ -2,7 +2,7 @@ import React, { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { useFetchAllProductsQuery } from '../../redux/features/products/productsApi';
 import ProductCards from '../shop/ProductCards';
-import Loader from '/src/components/Loader'; // ✅ import loader
+import Loader from '/src/components/Loader'; 
 
 const CategoryPage = () => {
     const { categoryName } = useParams();
@@ -13,7 +13,6 @@ const CategoryPage = () => {
     });
 
     useEffect(() => {
-        // Optional debugging
         // console.log("URL Category:", categoryName);
         // console.log("Decoded Category:", decodedCategory);
         // console.log("All Products:", data?.products || []);
@@ -31,7 +30,7 @@ const CategoryPage = () => {
     if (isLoading) {
         return (
             <section className="section__container flex justify-center py-16">
-                <Loader />  {/* ✅ show loader */}
+                <Loader />  
             </section>
         );
     }

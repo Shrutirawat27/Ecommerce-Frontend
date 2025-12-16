@@ -10,7 +10,6 @@ const TrendingProducts = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // ✅ Detect mobile and set initial visible products
   useEffect(() => {
     const initialCount = window.innerWidth < 640 ? 4 : 8;
     setVisibleProducts(initialCount);

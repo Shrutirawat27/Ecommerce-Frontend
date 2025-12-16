@@ -133,8 +133,7 @@ const SimpleProfileEdit = () => {
                   <button
                     type="button"
                     onClick={() => fileInputRef.current.click()}
-                    className="text-blue-600 text-sm font-medium"
-                  >
+                    className="text-blue-600 text-sm font-medium">
                     Change Profile Picture
                   </button>
                   <div className="text-xs text-center text-gray-500 mt-2">
@@ -206,15 +205,13 @@ const SimpleProfileEdit = () => {
                       <button
                         type="button"
                         onClick={handleCancel}
-                        className="border border-gray-300 text-gray-700 px-4 py-2 rounded mr-3"
-                      >
+                        className="border border-gray-300 text-gray-700 px-4 py-2 rounded mr-3">
                         Cancel
                       </button>
                       <button
                         type="submit"
                         disabled={isLoading}
-                        className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 disabled:opacity-50"
-                      >
+                        className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 disabled:opacity-50">
                         {isLoading ? 'Saving...' : 'Save Changes'}
                       </button>
                     </>
@@ -222,8 +219,7 @@ const SimpleProfileEdit = () => {
                     <button
                       type="button"
                       onClick={() => setIsEditing(true)}
-                      className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-                    >
+                      className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
                       Edit
                     </button>
                   )}

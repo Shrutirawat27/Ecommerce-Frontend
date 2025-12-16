@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "../../../redux/features/cart/cartSlice";
 import ReviewsCard from "../reviews/ReviewsCard";
 import { getBaseUrl } from "../../../utils/baseURL";
-import Loader from "/src/components/Loader"; // ✅ Import loader
+import Loader from "/src/components/Loader"; 
 
 const SingleProduct = () => {
   const { _id } = useParams();
@@ -45,7 +45,7 @@ const SingleProduct = () => {
   if (loading) {
     return (
       <section className="section__container flex justify-center py-16">
-        <Loader /> {/* ✅ Loader while fetching */}
+        <Loader /> 
       </section>
     );
   }
@@ -97,8 +97,7 @@ const SingleProduct = () => {
 
             <button
               onClick={handleAddToCart}
-              className="mt-6 px-6 py-3 bg-primary text-white rounded-md hover:bg-primary-dark"
-            >
+              className="mt-6 px-6 py-3 bg-primary text-white rounded-md hover:bg-primary-dark">
               Add to Cart
             </button>
           </div>

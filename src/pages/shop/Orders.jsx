@@ -9,7 +9,6 @@ const Orders = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // ✅ Get current userId from JWT
   const getCurrentUserId = () => {
     try {
       const token = localStorage.getItem("token");
@@ -22,7 +21,6 @@ const Orders = () => {
     }
   };
 
-  // ✅ Fetch orders from backend
   const fetchOrders = useCallback(async () => {
     try {
       const token = localStorage.getItem("token");
@@ -40,7 +38,6 @@ const Orders = () => {
 
       const data = await response.json();
 
-      // ✅ Filter orders for current user (extra safety)
       const currentUserId = getCurrentUserId();
       const filteredOrders = data.filter(order => order.userId._id === currentUserId);
 
@@ -54,7 +51,6 @@ const Orders = () => {
     }
   }, [dispatch]);
 
-  // ✅ Load orders on component mount
   useEffect(() => {
     dispatch(clearOrders());
 
@@ -67,7 +63,6 @@ const Orders = () => {
     loadOrders();
   }, [dispatch, fetchOrders]);
 
-  // ✅ Auto-refresh every 30s
   useEffect(() => {
     const intervalId = setInterval(() => {
       if (!loading) fetchOrders();
@@ -170,8 +165,7 @@ const Orders = () => {
                 <span className={`font-medium px-2 py-1 rounded-full text-xs ${
                   order.status === 'Delivered' ? 'bg-green-100 text-green-800' :
                   order.status === 'Shipped' ? 'bg-blue-100 text-blue-800' :
-                  'bg-yellow-100 text-yellow-800'
-                }`}>
+                  'bg-yellow-100 text-yellow-800'}`}>
                   {order.status || 'Pending'}
                 </span>
               </div>

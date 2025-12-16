@@ -6,18 +6,13 @@ import { getBaseUrl } from '../../utils/baseURL';
 const List = () => {
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  // Filters & search
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('all');
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
-
-  // Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const ITEMS_PER_PAGE = 5;
 
-  // Update modal
   const [editingProduct, setEditingProduct] = useState(null);
   const [formData, setFormData] = useState({
     name: '',
@@ -119,10 +114,9 @@ const List = () => {
 {/* Filters */}
 <div className="mb-6 space-y-4">
 
-  {/* ===== MOBILE FILTERS ===== */}
+  {/* Mobile Filters */}
   <div className="md:hidden space-y-4">
 
-    {/* Search + Category */}
     <div className="grid grid-cols-2 gap-3">
       <input
         className="border px-3 py-2 rounded w-full"
@@ -139,8 +133,7 @@ const List = () => {
         onChange={e => {
           setCategory(e.target.value);
           setCurrentPage(1);
-        }}
-      >
+        }}>
         <option value="all">All Categories</option>
         {categories.filter(c => c !== 'all').map(c => (
           <option key={c} value={c}>{c}</option>
@@ -148,7 +141,6 @@ const List = () => {
       </select>
     </div>
 
-    {/* Min + Max Price */}
     <div className="grid grid-cols-2 gap-3">
       <input
         type="number"
@@ -173,7 +165,7 @@ const List = () => {
     </div>
   </div>
 
-  {/* ===== DESKTOP FILTERS (UNCHANGED ORIGINAL) ===== */}
+  {/* Desktop Filters */}
   <div className="hidden md:flex flex-wrap gap-4">
     <input
       className="border px-3 py-2 rounded"
@@ -190,8 +182,7 @@ const List = () => {
       onChange={e => {
         setCategory(e.target.value);
         setCurrentPage(1);
-      }}
-    >
+      }}>
       <option value="all">All Categories</option>
       {categories.filter(c => c !== 'all').map(c => (
         <option key={c} value={c}>{c}</option>
@@ -218,10 +209,9 @@ const List = () => {
       }}
     />
   </div>
-
 </div>
 
-      {/* MOBILE VIEW */}
+      {/* Mobile View */}
       <div className="md:hidden space-y-4">
         {paginatedList.map(item => (
           <div key={item._id} className="bg-white shadow rounded p-4 flex gap-4">
@@ -230,23 +220,24 @@ const List = () => {
               alt={item.name}
               className="w-20 h-20 object-cover rounded"
             />
+
             <div className="flex-1">
               <h3 className="font-semibold text-sm">{item.name}</h3>
               <p className="text-xs text-gray-500">{item.category}</p>
               <p className="font-semibold mt-1">
                 {currency}{item.price}
               </p>
+
               <div className="flex gap-4 mt-2 text-sm">
                 <button
                   className="text-blue-600"
-                  onClick={() => openEditModal(item)}
-                >
+                  onClick={() => openEditModal(item)}>
                   Update
                 </button>
+
                 <button
                   className="text-red-600"
-                  onClick={() => removeProduct(item._id)}
-                >
+                  onClick={() => removeProduct(item._id)}>
                   Delete
                 </button>
               </div>
@@ -255,7 +246,7 @@ const List = () => {
         ))}
       </div>
 
-      {/* DESKTOP TABLE (UNCHANGED) */}
+      {/* Desktop Table */}
       <div className="hidden md:block bg-white shadow rounded overflow-x-auto">
         <table className="min-w-full text-sm">
           <thead className="bg-gray-100">
@@ -280,16 +271,16 @@ const List = () => {
                 <td className="px-4 py-3">{item.category}</td>
                 <td className="px-4 py-3">{currency}{item.price}</td>
                 <td className="px-4 py-3 text-center space-x-4">
+
                   <button
                     className="text-blue-600 hover:underline"
-                    onClick={() => openEditModal(item)}
-                  >
+                    onClick={() => openEditModal(item)}>
                     Update
                   </button>
+
                   <button
                     className="text-red-600 hover:underline"
-                    onClick={() => removeProduct(item._id)}
-                  >
+                    onClick={() => removeProduct(item._id)}>
                     Delete
                   </button>
                 </td>
@@ -309,9 +300,7 @@ const List = () => {
               className={`px-3 py-1 border rounded ${
                 currentPage === i + 1
                   ? 'bg-primary text-white'
-                  : 'bg-white'
-              }`}
-            >
+                  : 'bg-white'}`}>
               {i + 1}
             </button>
           ))}
@@ -347,15 +336,13 @@ const List = () => {
               <button onClick={() => setEditingProduct(null)}>Cancel</button>
               <button
                 className="bg-blue-600 text-white px-4 py-2 rounded"
-                onClick={handleUpdate}
-              >
+                onClick={handleUpdate}>
                 Save
               </button>
             </div>
           </div>
         </div>
       )}
-
     </div>
   );
 };

@@ -51,8 +51,7 @@ const Search = () => {
           />
           <button
             onClick={handleSearch}
-            className="search-button w-full md:w-auto py-2 px-8 bg-primary text-white rounded"
-          >
+            className="search-button w-full md:w-auto py-2 px-8 bg-primary text-white rounded">
             Search
           </button>
           {searchQuery && (

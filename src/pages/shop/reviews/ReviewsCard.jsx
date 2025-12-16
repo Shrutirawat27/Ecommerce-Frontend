@@ -47,8 +47,7 @@ const ReviewsCard = ({ productReviews, refetchProduct }) => {
       <div className="mt-10 text-center">
         <button
           onClick={handleOpenReviewModal}
-          className="px-6 py-3 bg-primary text-white rounded hover:bg-primary-dark"
-        >
+          className="px-6 py-3 bg-primary text-white rounded hover:bg-primary-dark">
           Add A Review
         </button>
       </div>

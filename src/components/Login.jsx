@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLoginUserMutation } from '../redux/features/auth/authApi';
 import { setUser } from '../redux/features/auth/authSlice';
-import { clearOrders } from '../redux/features/products/productsSlice'; // ✅ clear previous orders
+import { clearOrders } from '../redux/features/products/productsSlice';
 
 const Login = () => {
     const [message, setMessage] = useState('');
@@ -16,15 +16,12 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
 
-        // ✅ Clear any previous tokens/orders before login
         localStorage.removeItem('token');
         localStorage.removeItem('refreshToken');
         dispatch(clearOrders());
 
         try {
             const response = await loginUser({ email, password }).unwrap();
-
-            // Make sure the property matches what your backend sends
             const token = response.token || response.accessToken; 
             const refreshToken = response.refreshToken;
             const user = response.user;
@@ -34,13 +31,10 @@ const Login = () => {
                 return;
             }
 
-            // ✅ Save new tokens in localStorage
             localStorage.setItem('token', token);
             if (refreshToken) localStorage.setItem('refreshToken', refreshToken);
 
-            // ✅ Save user in Redux
             dispatch(setUser({ user }));
-
             alert("Login successful");
             navigate("/");
         } catch (error) {
@@ -57,20 +51,21 @@ const Login = () => {
                     <input 
                         onChange={(e) => setEmail(e.target.value)}
                         type="email" placeholder="Email Address" required
-                        className="w-full bg-gray-100 px-5 py-3"
-                    />
+                        className="w-full bg-gray-100 px-5 py-3"/>
+
                     <input 
                         onChange={(e) => setPassword(e.target.value)}
                         type="password" placeholder="Password" required
-                        className="w-full bg-gray-100 px-5 py-3"
-                    />
+                        className="w-full bg-gray-100 px-5 py-3"/>
+
                     {message && <p className="text-red-500">{message}</p>}
+
                     <button type="submit"
-                        className="w-full bg-primary text-white hover:bg-indigo-500 font-medium py-3 rounded-md"
-                    >
+                        className="w-full bg-primary text-white hover:bg-indigo-500 font-medium py-3 rounded-md">
                         {isLoading ? 'Logging in...' : 'Login'}
                     </button>
                 </form>
+                
                 <p className="my-5 text-sm">
                     Don't have an Account? 
                     <Link to="/register" className="text-red-500 hover:text-red-700 px-1"> Register </Link>
