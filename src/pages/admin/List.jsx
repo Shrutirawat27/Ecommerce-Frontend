@@ -113,15 +113,8 @@ const List = () => {
   if (loading) return <div className="text-center py-8">Loading...</div>;
 
   return (
-    <div className="container mx-auto px-4 py-8">
-
-      {/* Header */}
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">All Products</h1>
-        <a href="/add" className="bg-green-600 text-white px-4 py-2 rounded">
-          Add New
-        </a>
-      </div>
+    <div className="container mx-auto px-4 pt-24 pb-8">
+        <h1 className="text-2xl font-bold mb-4">All Products</h1>
 
 {/* Filters */}
 <div className="mb-6 space-y-4">
