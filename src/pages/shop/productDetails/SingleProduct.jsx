@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "../../../redux/features/cart/cartSlice";
 import ReviewsCard from "../reviews/ReviewsCard";
 import { getBaseUrl } from "../../../utils/baseURL";
+import Loader from "/src/components/Loader"; // ✅ Import loader
 
 const SingleProduct = () => {
   const { _id } = useParams();
@@ -16,24 +17,24 @@ const SingleProduct = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-  fetchProduct();
-}, [_id]);
+    fetchProduct();
+  }, [_id]);
 
-const fetchProduct = async () => {
-  setLoading(true);
-  try {
-    const response = await fetch(`${getBaseUrl()}/api/products/${_id}`);
-    if (!response.ok) throw new Error("Product not found");
-    const data = await response.json();
-    setProduct(data);
-    setProductReviews(data.reviews || []);
-  } catch (err) {
-    console.error("Error fetching product:", err);
-    setError("Error loading product details. Please try again later.");
-  } finally {
-    setLoading(false);
-  }
-};
+  const fetchProduct = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(`${getBaseUrl()}/api/products/${_id}`);
+      if (!response.ok) throw new Error("Product not found");
+      const data = await response.json();
+      setProduct(data);
+      setProductReviews(data.reviews || []);
+    } catch (err) {
+      console.error("Error fetching product:", err);
+      setError("Error loading product details. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleAddToCart = () => {
     if (product) {
@@ -41,15 +42,22 @@ const fetchProduct = async () => {
     }
   };
 
-  if (loading) return <p className="text-center my-8">Loading...</p>;
-  if (error) return <p className="text-center text-red-500">{error}</p>;
-  if (!product) return <p className="text-center text-gray-600">Product not found</p>;
+  if (loading) {
+    return (
+      <section className="section__container flex justify-center py-16">
+        <Loader /> {/* ✅ Loader while fetching */}
+      </section>
+    );
+  }
+
+  if (error) return <p className="text-center text-red-500 my-8">{error}</p>;
+  if (!product) return <p className="text-center text-gray-600 my-8">Product not found</p>;
 
   return (
     <>
       <section className="section__container bg-primary-light">
         <h2 className="section__header capitalize">Single Product Page</h2>
-        <div className="flex items-center space-x-2 section__subheader text-sm text-gray-600">
+        <div className="flex justify-center items-center space-x-2 section__subheader text-sm text-gray-600">
           <Link to="/" className="hover:text-primary">Home</Link>
           <img src="/arrow.png" alt="arrow" className="w-4 h-4" />
           <Link to="/shop" className="hover:text-primary">Shop</Link>

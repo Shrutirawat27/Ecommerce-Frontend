@@ -46,7 +46,7 @@ const About = () => {
         </div>
 
         <div className="flex flex-col md:flex-row justify-center gap-5 text-sm mb-20 flex-wrap">
-          <div className="border px-10 py-8 flex flex-col gap-5 w-full md:w-1/3">
+          <div className="border px-10 py-8 flex flex-col gap-2 w-full md:w-1/3">
             <b>Quality Assurance:</b>
             <p className="text-gray-600">
               We meticulously select and vet each product to ensure it meets our stringent quality
@@ -54,7 +54,7 @@ const About = () => {
             </p>
           </div>
 
-          <div className="border px-10 py-8 flex flex-col gap-5 w-full md:w-1/3">
+          <div className="border px-10 py-8 flex flex-col gap-2 w-full md:w-1/3">
             <b>Convenience:</b>
             <p className="text-gray-600">
               With our user-friendly and hassle-free ordering process, shopping has never been
@@ -62,7 +62,7 @@ const About = () => {
             </p>
           </div>
 
-          <div className="border px-10 py-8 flex flex-col gap-5 w-full md:w-1/3">
+          <div className="border px-10 py-8 flex flex-col gap-2 w-full md:w-1/3">
             <b>Exceptional Customer Service:</b>
             <p className="text-gray-600">
               Our team of dedicated professionals is here to assist you every step of the way,

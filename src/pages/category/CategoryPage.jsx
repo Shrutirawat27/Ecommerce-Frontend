@@ -2,6 +2,7 @@ import React, { useEffect, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { useFetchAllProductsQuery } from '../../redux/features/products/productsApi';
 import ProductCards from '../shop/ProductCards';
+import Loader from '/src/components/Loader'; // ✅ import loader
 
 const CategoryPage = () => {
     const { categoryName } = useParams();
@@ -12,9 +13,9 @@ const CategoryPage = () => {
     });
 
     useEffect(() => {
+        // Optional debugging
         // console.log("URL Category:", categoryName);
         // console.log("Decoded Category:", decodedCategory);
-        // console.log("Full API Response:", data);  
         // console.log("All Products:", data?.products || []);
     }, [data, categoryName]);
 
@@ -22,13 +23,22 @@ const CategoryPage = () => {
 
     const filteredProducts = useMemo(() => {
         if (!decodedCategory || !products.length) return [];
-        return products.filter((product) => 
-            product.category?.trim() === decodedCategory
+        return products.filter(
+            (product) => product.category?.trim() === decodedCategory
         );
     }, [decodedCategory, products]);
 
-    if (isLoading) return <div>Loading...</div>;
-    if (error) return <div>Error loading products</div>;
+    if (isLoading) {
+        return (
+            <section className="section__container flex justify-center py-16">
+                <Loader />  {/* ✅ show loader */}
+            </section>
+        );
+    }
+
+    if (error) {
+        return <div className="text-center text-red-500 my-8">Error loading products</div>;
+    }
 
     return (
         <>
@@ -39,11 +49,11 @@ const CategoryPage = () => {
                 </p>
             </section>
 
-            <div className="section__container">
+            <div className="section__container mt-8">
                 {filteredProducts.length > 0 ? (
                     <ProductCards products={filteredProducts} />
                 ) : (
-                    <p>No products found in this category.</p>
+                    <p className="text-center text-gray-600">No products found in this category.</p>
                 )}
             </div>
         </>

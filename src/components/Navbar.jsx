@@ -45,8 +45,8 @@ const Navbar = () => {
     };
 
     const userDropDownMenus = [
-        { label: "My Profile", path: "/dashboard/profile" },
-        { label: "Orders", path: "/dashboard/order" },
+        { label: "MY PROFILE", path: "/dashboard/profile" },
+        { label: "ORDERS", path: "/dashboard/order" },
     ];
     
     // Define a standard size for all icons/avatars to ensure consistent alignment
@@ -181,7 +181,7 @@ const Navbar = () => {
                             <li key={i}><Link to={menu.path} onClick={() => setIsMobileMenuOpen(false)}>{menu.label}</Link></li>
                         ))}
                         {user ? (
-                            <li><button onClick={handleLogout} className="text-left w-full">Logout</button></li>
+                            <li><button onClick={handleLogout} className="text-left w-full">LOGOUT</button></li>
                         ) : (
                             <li><Link to="/login" onClick={() => setIsMobileMenuOpen(false)}>LOGIN</Link></li>
                         )}
