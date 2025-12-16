@@ -90,10 +90,11 @@ const List = () => {
     }
   };
 
-  // Categories for filter
-  const categories = useMemo(() => ['all', ...new Set(list.map(p => p.category))], [list]);
+  const categories = useMemo(
+    () => ['all', ...new Set(list.map(p => p.category))],
+    [list]
+  );
 
-  // Filtered + searched list
   const filteredList = useMemo(() => {
     return list.filter(item =>
       item.name.toLowerCase().includes(search.toLowerCase()) &&
@@ -103,7 +104,6 @@ const List = () => {
     );
   }, [list, search, category, minPrice, maxPrice]);
 
-  // Pagination logic
   const totalPages = Math.ceil(filteredList.length / ITEMS_PER_PAGE);
   const paginatedList = filteredList.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
@@ -123,54 +123,147 @@ const List = () => {
         </a>
       </div>
 
-      {/* Filters */}
-      <div className="flex flex-wrap gap-4 mb-6">
-        <input
-          className="border px-3 py-2 rounded"
-          placeholder="Search by name"
-          value={search}
-          onChange={e => {
-            setSearch(e.target.value);
-            setCurrentPage(1); // Reset page
-          }}
-        />
-        <select
-          className="border px-3 py-2 rounded"
-          value={category}
-          onChange={e => {
-            setCategory(e.target.value);
-            setCurrentPage(1); // Reset page
-          }}
-        >
-          <option value="all">All Categories</option>
-          {categories.filter(c => c !== 'all').map(c => (
-            <option key={c} value={c}>{c}</option>
-          ))}
-        </select>
-        <input
-          type="number"
-          placeholder="Min Price"
-          className="border px-3 py-2 rounded w-28"
-          value={minPrice}
-          onChange={e => {
-            setMinPrice(e.target.value);
-            setCurrentPage(1);
-          }}
-        />
-        <input
-          type="number"
-          placeholder="Max Price"
-          className="border px-3 py-2 rounded w-28"
-          value={maxPrice}
-          onChange={e => {
-            setMaxPrice(e.target.value);
-            setCurrentPage(1);
-          }}
-        />
+{/* Filters */}
+<div className="mb-6 space-y-4">
+
+  {/* ===== MOBILE FILTERS ===== */}
+  <div className="md:hidden space-y-4">
+
+    {/* Search + Category */}
+    <div className="grid grid-cols-2 gap-3">
+      <input
+        className="border px-3 py-2 rounded w-full"
+        placeholder="Search by name"
+        value={search}
+        onChange={e => {
+          setSearch(e.target.value);
+          setCurrentPage(1);
+        }}
+      />
+      <select
+        className="border px-3 py-2 rounded w-full"
+        value={category}
+        onChange={e => {
+          setCategory(e.target.value);
+          setCurrentPage(1);
+        }}
+      >
+        <option value="all">All Categories</option>
+        {categories.filter(c => c !== 'all').map(c => (
+          <option key={c} value={c}>{c}</option>
+        ))}
+      </select>
+    </div>
+
+    {/* Min + Max Price */}
+    <div className="grid grid-cols-2 gap-3">
+      <input
+        type="number"
+        placeholder="Min Price"
+        className="border px-3 py-2 rounded w-full"
+        value={minPrice}
+        onChange={e => {
+          setMinPrice(e.target.value);
+          setCurrentPage(1);
+        }}
+      />
+      <input
+        type="number"
+        placeholder="Max Price"
+        className="border px-3 py-2 rounded w-full"
+        value={maxPrice}
+        onChange={e => {
+          setMaxPrice(e.target.value);
+          setCurrentPage(1);
+        }}
+      />
+    </div>
+  </div>
+
+  {/* ===== DESKTOP FILTERS (UNCHANGED ORIGINAL) ===== */}
+  <div className="hidden md:flex flex-wrap gap-4">
+    <input
+      className="border px-3 py-2 rounded"
+      placeholder="Search by name"
+      value={search}
+      onChange={e => {
+        setSearch(e.target.value);
+        setCurrentPage(1);
+      }}
+    />
+    <select
+      className="border px-3 py-2 rounded"
+      value={category}
+      onChange={e => {
+        setCategory(e.target.value);
+        setCurrentPage(1);
+      }}
+    >
+      <option value="all">All Categories</option>
+      {categories.filter(c => c !== 'all').map(c => (
+        <option key={c} value={c}>{c}</option>
+      ))}
+    </select>
+    <input
+      type="number"
+      placeholder="Min Price"
+      className="border px-3 py-2 rounded w-40"
+      value={minPrice}
+      onChange={e => {
+        setMinPrice(e.target.value);
+        setCurrentPage(1);
+      }}
+    />
+    <input
+      type="number"
+      placeholder="Max Price"
+      className="border px-3 py-2 rounded w-40"
+      value={maxPrice}
+      onChange={e => {
+        setMaxPrice(e.target.value);
+        setCurrentPage(1);
+      }}
+    />
+  </div>
+
+</div>
+
+      {/* MOBILE VIEW */}
+      <div className="md:hidden space-y-4">
+        {paginatedList.map(item => (
+          <div key={item._id} className="bg-white shadow rounded p-4 flex gap-4">
+            <img
+              src={item.image1}
+              alt={item.name}
+              className="w-20 h-20 object-cover rounded"
+            />
+            <div className="flex-1">
+              <h3 className="font-semibold text-sm">{item.name}</h3>
+              <p className="text-xs text-gray-500">{item.category}</p>
+              <p className="font-semibold mt-1">
+                {currency}{item.price}
+              </p>
+              <div className="flex gap-4 mt-2 text-sm">
+                <button
+                  className="text-blue-600"
+                  onClick={() => openEditModal(item)}
+                >
+                  Update
+                </button>
+                <button
+                  className="text-red-600"
+                  onClick={() => removeProduct(item._id)}
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
 
-      {/* Table */}
-      <div className="bg-white shadow rounded overflow-x-auto">
+      {/* DESKTOP TABLE (UNCHANGED) */}
+      <div className="hidden md:block bg-white shadow rounded overflow-x-auto">
         <table className="min-w-full text-sm">
           <thead className="bg-gray-100">
             <tr>
@@ -194,8 +287,18 @@ const List = () => {
                 <td className="px-4 py-3">{item.category}</td>
                 <td className="px-4 py-3">{currency}{item.price}</td>
                 <td className="px-4 py-3 text-center space-x-4">
-                  <button className="text-blue-600 hover:underline" onClick={() => openEditModal(item)}>Update</button>
-                  <button className="text-red-600 hover:underline" onClick={() => removeProduct(item._id)}>Delete</button>
+                  <button
+                    className="text-blue-600 hover:underline"
+                    onClick={() => openEditModal(item)}
+                  >
+                    Update
+                  </button>
+                  <button
+                    className="text-red-600 hover:underline"
+                    onClick={() => removeProduct(item._id)}
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
@@ -210,7 +313,11 @@ const List = () => {
             <button
               key={i}
               onClick={() => setCurrentPage(i + 1)}
-              className={`px-3 py-1 border rounded ${currentPage === i + 1 ? 'bg-primary text-white' : 'bg-white'}`}
+              className={`px-3 py-1 border rounded ${
+                currentPage === i + 1
+                  ? 'bg-primary text-white'
+                  : 'bg-white'
+              }`}
             >
               {i + 1}
             </button>
@@ -220,8 +327,8 @@ const List = () => {
 
       {/* Update Modal */}
       {editingProduct && (
-        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded w-96 space-y-4">
+        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50 px-4">
+          <div className="bg-white rounded p-4 md:p-6 w-full max-w-sm md:max-w-md space-y-3 max-h-[90vh] overflow-y-auto">
             <h2 className="font-bold text-lg">Update Product</h2>
             <input
               className="border p-2 w-full"
@@ -243,9 +350,14 @@ const List = () => {
               type="file"
               onChange={e => setFormData({ ...formData, image1: e.target.files[0] })}
             />
-            <div className="flex justify-end gap-4">
+            <div className="flex justify-end gap-4 pt-2">
               <button onClick={() => setEditingProduct(null)}>Cancel</button>
-              <button className="bg-blue-600 text-white px-4 py-2 rounded" onClick={handleUpdate}>Save</button>
+              <button
+                className="bg-blue-600 text-white px-4 py-2 rounded"
+                onClick={handleUpdate}
+              >
+                Save
+              </button>
             </div>
           </div>
         </div>
