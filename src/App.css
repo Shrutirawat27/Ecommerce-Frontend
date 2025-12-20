@@ -682,9 +682,10 @@ h1, h2, h3, h4, h5, h6 {
   }
 
   .instagram__grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(3, 1fr);
   }
+  
+  
 }
 
 .nav__icons span a.dropdown-items{
