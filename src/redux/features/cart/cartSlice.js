@@ -1,36 +1,59 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
 
-// 🔹 load cart from localStorage
-const storedProducts = localStorage.getItem('cartProducts');
-const parsedProducts = storedProducts ? JSON.parse(storedProducts) : [];
+// 🔹 helpers to get user-based key
+const getUserId = () => localStorage.getItem('userId');
+const getCartKey = () => {
+  const userId = getUserId();
+  return userId ? `cart_${userId}` : null;
+};
 
-// 🔹 utilities functions (UNCHANGED)
+// 🔹 load cart for logged-in user
+const loadCart = () => {
+  const key = getCartKey();
+  if (!key) return [];
+  try {
+    const data = localStorage.getItem(key);
+    return data ? JSON.parse(data) : [];
+  } catch {
+    return [];
+  }
+};
+
+// 🔹 utilities (UNCHANGED)
 export const setSelectedItems = (state) =>
   state.products.reduce((total, product) => total + product.quantity, 0);
 
 export const setTotalPrice = (state) =>
-  state.products.reduce((total, product) => total + product.quantity * product.price, 0);
+  state.products.reduce(
+    (total, product) => total + product.quantity * product.price,
+    0
+  );
 
 export const setTax = (state) => setTotalPrice(state) * state.taxRate;
 
 export const setGrandTotal = (state) =>
   setTotalPrice(state) + setTax(state);
 
-// 🔹 INITIAL STATE WITH PRE-CALCULATION
+// 🔹 initial cart per user
+const products = loadCart();
+
 const initialState = {
-  products: parsedProducts,
-  selectedItems: parsedProducts.reduce((t, p) => t + p.quantity, 0),
-  totalPrice: parsedProducts.reduce((t, p) => t + p.quantity * p.price, 0),
-  tax: parsedProducts.reduce((t, p) => t + p.quantity * p.price, 0) * 0.05,
+  products,
+  selectedItems: products.reduce((t, p) => t + p.quantity, 0),
+  totalPrice: products.reduce((t, p) => t + p.quantity * p.price, 0),
   taxRate: 0.05,
+  tax: products.reduce((t, p) => t + p.quantity * p.price, 0) * 0.05,
   grandTotal:
-    parsedProducts.reduce((t, p) => t + p.quantity * p.price, 0) +
-    parsedProducts.reduce((t, p) => t + p.quantity * p.price, 0) * 0.05,
+    products.reduce((t, p) => t + p.quantity * p.price, 0) +
+    products.reduce((t, p) => t + p.quantity * p.price, 0) * 0.05,
 };
 
-// 🔹 save helper
+// 🔹 save cart per user
 const saveCart = (products) => {
-  localStorage.setItem('cartProducts', JSON.stringify(products));
+  const key = getCartKey();
+  if (key) {
+    localStorage.setItem(key, JSON.stringify(products));
+  }
 };
 
 const cartSlice = createSlice({
@@ -38,15 +61,15 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action) => {
-      const isExist = state.products.find(
-        (product) => product._id === action.payload._id
+      const exists = state.products.find(
+        (p) => p._id === action.payload._id
       );
 
-      if (!isExist) {
+      if (!exists) {
         state.products.push({ ...action.payload, quantity: 1 });
-        saveCart(state.products);
       }
 
+      saveCart(state.products);
       state.selectedItems = setSelectedItems(state);
       state.totalPrice = setTotalPrice(state);
       state.tax = setTax(state);
@@ -58,10 +81,8 @@ const cartSlice = createSlice({
         if (product._id === action.payload._id) {
           if (action.payload.type === 'increment') {
             return { ...product, quantity: product.quantity + 1 };
-          } else if (
-            action.payload.type === 'decrement' &&
-            product.quantity > 1
-          ) {
+          }
+          if (action.payload.type === 'decrement' && product.quantity > 1) {
             return { ...product, quantity: product.quantity - 1 };
           }
         }
@@ -69,7 +90,6 @@ const cartSlice = createSlice({
       });
 
       saveCart(state.products);
-
       state.selectedItems = setSelectedItems(state);
       state.totalPrice = setTotalPrice(state);
       state.tax = setTax(state);
@@ -82,7 +102,6 @@ const cartSlice = createSlice({
       );
 
       saveCart(state.products);
-
       state.selectedItems = setSelectedItems(state);
       state.totalPrice = setTotalPrice(state);
       state.tax = setTax(state);
@@ -90,13 +109,14 @@ const cartSlice = createSlice({
     },
 
     clearCart: (state) => {
+      const key = getCartKey();
+      if (key) localStorage.removeItem(key);
+
       state.products = [];
       state.selectedItems = 0;
       state.totalPrice = 0;
       state.tax = 0;
       state.grandTotal = 0;
-
-      localStorage.removeItem('cartProducts');
     },
   },
 });
