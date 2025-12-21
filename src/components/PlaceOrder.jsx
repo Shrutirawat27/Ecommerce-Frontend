@@ -168,11 +168,13 @@ const PlaceOrder = () => {
         }
         
         const orderData = {
-          userId: userId,
           products: products.map(product => ({
-            productId: product._id,
-            quantity: product.quantity
-          })),
+          productId: product._id,
+          name: product.name,
+          price: product.price,
+          image: product.image1 || product.image,
+          quantity: product.quantity
+        })),
           totalAmount: grandTotal,
           deliveryInfo: {
             firstName: formData.firstName,
