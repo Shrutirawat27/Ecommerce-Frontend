@@ -130,12 +130,12 @@ const Orders = () => {
       </div>
 
       <div className="space-y-6">
-        {[...orders].sort((a, b) => new Date(b.orderDate) - new Date(a.orderDate)).map((order, index) => (
+        {[...orders].sort((a, b) => new Date(b.createdAt || b.orderDate) - new Date(a.createdAt || a.orderDate)).map((order, index) => (
           <div key={order._id || index} className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200">
             <div className="bg-gray-50 px-6 py-4 border-b flex justify-between items-center">
               <div>
                 <p className="text-sm text-gray-500">Order ID: <span className="font-medium text-gray-700">{order._id}</span></p>
-                <p className="text-sm text-gray-500">Placed on: <span className="font-medium text-gray-700">{formatDate(order.orderDate)}</span></p>
+                <p className="text-sm text-gray-500">Placed on: <span className="font-medium text-gray-700">{formatDate(order.createdAt || order.orderDate)}</span></p>
               </div>
             </div>
 
