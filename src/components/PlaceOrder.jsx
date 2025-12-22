@@ -10,10 +10,11 @@ const PlaceOrder = () => {
   const [method, setMethod] = useState('cod');
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
-    email: '',
+    email: user?.email || '',
     street: '',
     city: '',
     state: '',
@@ -25,7 +26,6 @@ const PlaceOrder = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { products, selectedItems, totalPrice, tax, grandTotal } = useSelector((store) => store.cart);
   const { currency = '$' } = useSelector((store) => store.products);
-  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     console.log("Current user data:", user);
