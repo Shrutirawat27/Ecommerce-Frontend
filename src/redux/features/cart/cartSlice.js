@@ -1,11 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { getBaseUrl } from '../../../utils/baseURL';
 
 /* BACKEND URL */
-const API_BASE =
-  process.env.NODE_ENV === 'development'
-    ? 'http://localhost:3000' 
-    : 'https://your-backend-render-url.onrender.com'; 
+const API_BASE = getBaseUrl();
 
 
 /* ASYNC THUNKS */
