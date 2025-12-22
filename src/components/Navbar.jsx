@@ -7,6 +7,7 @@ import avatarImg from '../assets/avatar.png';
 import { FiSearch } from "react-icons/fi";
 import { useLogoutUserMutation } from '../redux/features/auth/authApi';
 import { logout } from '../redux/features/auth/authSlice';
+import { clearCart, updateCartBackend } from '../redux/features/cart/cartSlice';
 
 const Navbar = () => {
     const products = useSelector((state) => state.cart.products);
@@ -37,7 +38,9 @@ const Navbar = () => {
         try {
             await logoutUser().unwrap();
             dispatch(logout());
+            dispatch(clearCart());
             localStorage.removeItem("token");
+            localStorage.removeItem("userId");
             navigate("/login");
         } catch (err) {
             console.error("Logout error", err);

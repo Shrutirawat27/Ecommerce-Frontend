@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useLoginUserMutation } from '../redux/features/auth/authApi';
 import { setUser } from '../redux/features/auth/authSlice';
 import { clearOrders } from '../redux/features/products/productsSlice';
+import { fetchCart } from '../redux/features/cart/cartSlice';
 
 const Login = () => {
     const [message, setMessage] = useState('');
@@ -34,7 +35,8 @@ const Login = () => {
             localStorage.setItem('token', token);
             if (refreshToken) localStorage.setItem('refreshToken', refreshToken);
 
-            dispatch(setUser({ user }));
+            dispatch(setUser({ user, token }));  
+            await dispatch(fetchCart()).unwrap();
             alert("Login successful");
             navigate("/");
         } catch (error) {

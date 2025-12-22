@@ -1,18 +1,20 @@
 import React from 'react';
 import OrderSummary from './OrderSummary';
 import { useDispatch } from 'react-redux';
-import { removeFromCart, updateQuantity } from '../../redux/features/cart/cartSlice';
+import { removeFromCart, updateQuantity, updateCartBackend } from '../../redux/features/cart/cartSlice';
 
 const CartModal = ({ products, isOpen, onClose }) => {
   const dispatch = useDispatch();
 
   const handleQuantity = (type, _id) => {
     dispatch(updateQuantity({ type, _id }));
+    dispatch(updateCartBackend()); 
   };
 
   const handleRemove = (e, _id) => {
     e.preventDefault();
     dispatch(removeFromCart({ _id }));
+    dispatch(updateCartBackend());
   };
 
   return (
@@ -58,7 +60,7 @@ const CartModal = ({ products, isOpen, onClose }) => {
 
                   {/* Product Image */}
                   <img
-                    src={item.image1}
+                    src={item.image}
                     alt={item.name}
                     className="w-20 h-20 object-cover flex-shrink-0 rounded-lg border border-gray-100"
                   />
