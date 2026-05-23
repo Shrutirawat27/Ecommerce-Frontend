@@ -3,6 +3,7 @@ import ProductCards from './ProductCards';
 import ShopFiltering from './ShopFiltering';
 import Loader from '/src/components/Loader'; 
 import { useFetchAllProductsQuery } from '../../redux/features/products/productsApi';
+import ProductSkeleton from '../../components/ProductSkeleton';
 
 const filters = {
   categories: ['all', 'accessories', 'dresses', 'footwears', 'cosmetics'],
@@ -103,7 +104,7 @@ const ShopPage = () => {
           {/* Products Area */}
           <div className="flex-1">
             {isLoading ? (
-              <Loader />   
+              <ProductSkeleton />   
             ) : error ? (
               <div className="text-red-500 text-center">
                 Error loading products

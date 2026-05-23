@@ -3,12 +3,15 @@ import { Link } from 'react-router-dom';
 import RatingStars from '../../components/RatingStars';
 import { useDispatch } from 'react-redux';
 import { addToCart } from '/src/redux/features/cart/cartSlice';
+import { toast } from "react-toastify";
 
 const ProductCards = ({ products }) => {
   const dispatch = useDispatch();
 
   const handleAddToCart = (product) => {
     dispatch(addToCart(product));
+
+    toast.success(`${product.name} added to cart`);
   };
 
   return (

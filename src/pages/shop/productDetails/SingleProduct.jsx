@@ -6,6 +6,8 @@ import { addToCart } from "../../../redux/features/cart/cartSlice";
 import ReviewsCard from "../reviews/ReviewsCard";
 import { getBaseUrl } from "../../../utils/baseURL";
 import Loader from "/src/components/Loader"; 
+import { toast } from "react-toastify";
+import SingleProductSkeleton from '/src/components/SingleProductSkeleton';
 
 const SingleProduct = () => {
   const { _id } = useParams();
@@ -39,15 +41,13 @@ const SingleProduct = () => {
   const handleAddToCart = () => {
     if (product) {
       dispatch(addToCart(product));
+
+      toast.success(`${product.name} added to cart`);
     }
   };
 
   if (loading) {
-    return (
-      <section className="section__container flex justify-center py-16">
-        <Loader /> 
-      </section>
-    );
+    return <SingleProductSkeleton />;
   }
 
   if (error) return <p className="text-center text-red-500 my-8">{error}</p>;

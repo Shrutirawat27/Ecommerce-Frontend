@@ -42,70 +42,76 @@ const SimpleProfileEdit = () => {
     setIsEditing(false);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError('');
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setIsLoading(true);
+  setError('');
 
-    try {
-      if (!user || !user._id) throw new Error('User not found. Please log in.');
-      const token = localStorage.getItem('token');
-      if (!token) throw new Error('Authentication token missing. Please log in again.');
-
-      const formData = new FormData();
-      formData.append('userId', user._id);
-      formData.append('username', username);
-      formData.append('profession', profession);
-      formData.append('bio', bio);
-
-      if (selectedFile) {
-        formData.append('profileImage', selectedFile);
-      } else if (profileImageUrl && profileImageUrl !== user.profileImage) {
-        formData.append('profileImageUrl', profileImageUrl);
-      }
-
-      const response = await fetch(`${getBaseUrl()}/api/user/edit-profile`, {
-        method: 'PATCH',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to update profile');
-      }
-
-      const currentRes = await fetch(`${getBaseUrl()}/api/user/current`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const currentData = await currentRes.json();
-
-      if (currentData?.user) {
-        setUsername(currentData.user.username || '');
-        setProfileImageUrl(currentData.user.profileImage || '');
-        setProfession(currentData.user.profession || '');
-        setBio(currentData.user.bio || '');
-        setSelectedFile(null);
-        setIsEditing(false);
-
-        dispatch(setUser({ user: currentData.user }));
-
-        alert('Profile updated successfully!');
-      } else {
-        throw new Error('Failed to fetch updated user info');
-      }
-    } catch (err) {
-      console.error('Error updating profile:', err);
-      setError(err.message || 'Failed to update profile');
-    } finally {
-      setIsLoading(false);
+  try {
+    if (!user || !user._id) {
+      throw new Error('User not found. Please log in.');
     }
-  };
+
+    const formData = new FormData();
+
+    formData.append('username', username);
+    formData.append('profession', profession);
+    formData.append('bio', bio);
+
+    if (selectedFile) {
+      formData.append('profileImage', selectedFile);
+    } else if (
+      profileImageUrl &&
+      profileImageUrl !== user.profileImage
+    ) {
+      formData.append('profileImageUrl', profileImageUrl);
+    }
+
+    const response = await fetch(
+      `${getBaseUrl()}/api/user/edit-profile`,
+      {
+        method: 'PATCH',
+        credentials: 'include',
+        body: formData,
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Failed to update profile');
+    }
+
+    const currentRes = await fetch(
+      `${getBaseUrl()}/api/user/current`,
+      {
+        credentials: 'include',
+      }
+    );
+
+    const currentData = await currentRes.json();
+
+    if (currentData?.user) {
+      setUsername(currentData.user.username || '');
+      setProfileImageUrl(currentData.user.profileImage || '');
+      setProfession(currentData.user.profession || '');
+      setBio(currentData.user.bio || '');
+      setSelectedFile(null);
+      setIsEditing(false);
+
+      dispatch(setUser({ user: currentData.user }));
+
+      alert('Profile updated successfully!');
+    } else {
+      throw new Error('Failed to fetch updated user info');
+    }
+  } catch (err) {
+    console.error('Error updating profile:', err);
+    setError(err.message || 'Failed to update profile');
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
