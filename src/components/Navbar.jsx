@@ -8,6 +8,7 @@ import { FiSearch } from "react-icons/fi";
 import { useLogoutUserMutation } from '../redux/features/auth/authApi';
 import { logout } from '../redux/features/auth/authSlice';
 import { clearCart, updateCartBackend } from '../redux/features/cart/cartSlice';
+import { clearWishlist } from '../redux/features/wishlist/wishlistSlice';
 
 const Navbar = () => {
     const products = useSelector((state) => state.cart.products);
@@ -39,6 +40,7 @@ const Navbar = () => {
             await logoutUser().unwrap();
             dispatch(logout());
             dispatch(clearCart());
+            dispatch(clearWishlist());
             localStorage.removeItem("token");
             localStorage.removeItem("userId");
             navigate("/login");
@@ -50,6 +52,7 @@ const Navbar = () => {
     const userDropDownMenus = [
         { label: "MY PROFILE", path: "/dashboard/profile" },
         { label: "ORDERS", path: "/dashboard/order" },
+        { label: "WISHLIST", path: "/wishlist" },
     ];
     
     const ICON_SIZE_CLASS = "h-7 w-7"; 

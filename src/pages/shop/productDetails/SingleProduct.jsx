@@ -1,17 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import RatingStars from "/src/components/RatingStars";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../../redux/features/cart/cartSlice";
 import ReviewsCard from "../reviews/ReviewsCard";
 import { getBaseUrl } from "../../../utils/baseURL";
 import Loader from "/src/components/Loader"; 
+import { Heart } from "lucide-react";
+import { toggleWishlistAsync } from "/src/redux/features/wishlist/wishlistSlice";
 import { toast } from "react-toastify";
 import SingleProductSkeleton from '/src/components/SingleProductSkeleton';
 
 const SingleProduct = () => {
   const { _id } = useParams();
   const dispatch = useDispatch();
+
+  const wishlistProducts = useSelector(
+  (state) => state.wishlist.products
+);
 
   const [product, setProduct] = useState(null);
   const [productReviews, setProductReviews] = useState([]);
@@ -52,6 +58,21 @@ const SingleProduct = () => {
 
   if (error) return <p className="text-center text-red-500 my-8">{error}</p>;
   if (!product) return <p className="text-center text-gray-600 my-8">Product not found</p>;
+
+  const handleWishlist = () => {
+
+  dispatch(toggleWishlistAsync(product));
+
+  const exists = wishlistProducts.find(
+    (p) => p._id === product._id
+  );
+
+  if (exists) {
+    toast.info(`${product.name} removed from wishlist`);
+  } else {
+    toast.success(`${product.name} added to wishlist`);
+  }
+};
 
   return (
     <>
@@ -99,6 +120,21 @@ const SingleProduct = () => {
               onClick={handleAddToCart}
               className="mt-6 px-6 py-3 bg-primary text-white rounded-md hover:bg-primary-dark">
               Add to Cart
+            </button>
+
+            <button
+              onClick={handleWishlist}
+              className="mt-4 ml-4 px-5 py-3 border border-gray-300 rounded-md hover:bg-gray-100 transition">
+            <Heart
+              size={20}
+              className={
+              wishlistProducts.find(
+               (p) => p._id === product._id
+                )
+                ? "fill-red-500 text-red-500"
+                : "text-gray-700"
+                }
+              />
             </button>
           </div>
         </div>

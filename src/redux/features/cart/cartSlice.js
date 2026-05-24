@@ -11,15 +11,21 @@ export const fetchCart = createAsyncThunk(
   'cart/fetchCart',
   async (_, { rejectWithValue }) => {
     try {
-      const token = localStorage.getItem('token');
-      if (!token) return [];
 
-      const res = await axios.get(`${API_BASE}/api/cart`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await axios.get(
+        `${API_BASE}/api/cart`,
+        {
+          withCredentials: true
+        }
+      );
+
       return res.data.products || [];
+
     } catch (err) {
-      return rejectWithValue(err.response?.data || err.message);
+
+      return rejectWithValue(
+        err.response?.data || err.message
+      );
     }
   }
 );
@@ -27,20 +33,28 @@ export const fetchCart = createAsyncThunk(
 export const updateCartBackend = createAsyncThunk(
   'cart/updateCartBackend',
   async (_, { getState, rejectWithValue }) => {
+
     try {
+
       const { cart } = getState();
-      const token = localStorage.getItem('token');
-      if (!token) return cart.products;
 
       const res = await axios.put(
         `${API_BASE}/api/cart`,
-        { products: cart.products },
-        { headers: { Authorization: `Bearer ${token}` } }
+        {
+          products: cart.products
+        },
+        {
+          withCredentials: true
+        }
       );
 
       return res.data.products;
+
     } catch (err) {
-      return rejectWithValue(err.response?.data || err.message);
+
+      return rejectWithValue(
+        err.response?.data || err.message
+      );
     }
   }
 );

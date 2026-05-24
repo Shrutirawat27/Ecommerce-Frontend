@@ -7,23 +7,38 @@ import Footer from './components/Footer';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { fetchCart } from './redux/features/cart/cartSlice';
+import { fetchWishlist } from './redux/features/wishlist/wishlistSlice';
 
 function App() {
+
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
+
+  const { user } = useSelector(
+    (state) => state.auth
+  );
 
   useEffect(() => {
-  const token = localStorage.getItem('token');
-  if (token) {
-    dispatch(fetchCart());
-  }
-}, [dispatch]);
+
+    if (user) {
+
+      dispatch(fetchCart());
+
+      dispatch(fetchWishlist());
+    }
+
+  }, [dispatch, user]);
 
   return (
     <>
-      <ToastContainer position="top-right" autoClose={3000} />
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+      />
+
       <Navbar />
+
       <Outlet />
+
       <Footer />
     </>
   );

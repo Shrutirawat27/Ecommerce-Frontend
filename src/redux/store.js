@@ -6,6 +6,7 @@ import productsApi from './features/products/productsApi';
 import productsReducer from './features/products/productsSlice';
 import reviewApi from './features/reviews/reviewsApi';
 import navigationReducer from './features/navigation/navigationSlice';
+import wishlistReducer from './features/wishlist/wishlistSlice';
 
 // Middleware to auto-sync cart to backend on add/remove/update
 const autoSyncCartMiddleware = (store) => (next) => (action) => {
@@ -28,6 +29,7 @@ export const store = configureStore({
     auth: authReducer,
     navigation: navigationReducer,
     products: productsReducer,
+    wishlist: wishlistReducer,
     [authApi.reducerPath]: authApi.reducer,
     [productsApi.reducerPath]: productsApi.reducer,
     [reviewApi.reducerPath]: reviewApi.reducer,

@@ -16,6 +16,7 @@ import ErrorPage from "../components/ErrorPage";
 import AdminList from "../pages/admin/List";
 import AdminOrders from "../pages/admin/Orders";
 import AdminAdd from "../pages/admin/Add";
+import Wishlist from '../pages/wishlist/Wishlist';
 
 const router = createBrowserRouter([
     {
@@ -36,7 +37,8 @@ const router = createBrowserRouter([
         { path: "/contact", element: <Contact /> },
         { path: "/list-items", element: <AdminList /> },
         { path: "/orders-admin", element: <AdminOrders /> },
-        { path: "/add", element: <AdminAdd /> }
+        { path: "/add", element: <AdminAdd /> },
+        { path: '/wishlist', element: <Wishlist /> }
       ]
     },
 
