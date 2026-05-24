@@ -22,6 +22,7 @@ const SingleProduct = () => {
   const [product, setProduct] = useState(null);
   const [productReviews, setProductReviews] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedSize, setSelectedSize] = useState("");
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -45,12 +46,25 @@ const SingleProduct = () => {
   };
 
   const handleAddToCart = () => {
-    if (product) {
-      dispatch(addToCart(product));
 
-      toast.success(`${product.name} added to cart`);
-    }
-  };
+  if (!product) return;
+
+  if (product?.sizes?.length > 0 && !selectedSize) {
+    toast.error("Please select a size");
+    return;
+  }
+
+  dispatch(
+    addToCart({
+      ...product,
+      selectedSize,
+    })
+  );
+
+  toast.success(
+    `${product.name}${selectedSize ? ` (${selectedSize})` : ""} added to cart`
+  );
+};
 
   if (loading) {
     return <SingleProductSkeleton />;
@@ -115,6 +129,28 @@ const SingleProduct = () => {
                 <RatingStars rating={product.rating} />
               </div>
             </div>
+
+            {product?.sizes?.length > 0 && (
+            <div className="mt-6">
+            <h3 className="font-semibold mb-3">Select Size</h3>
+
+            <div className="flex gap-3 flex-wrap">
+              {product.sizes.map((size) => (
+            <button
+              key={size}
+              onClick={() => setSelectedSize(size)}
+              className={`px-4 py-2 border rounded-md transition ${
+                selectedSize === size
+                ? "bg-black text-white border-black"
+                : "bg-white text-black border-gray-300 hover:border-black"
+              }`}
+            >
+              {size}
+            </button>
+               ))}
+            </div>
+            </div>
+          )}
 
             <button
               onClick={handleAddToCart}

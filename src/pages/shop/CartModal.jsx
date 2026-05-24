@@ -6,16 +6,18 @@ import { removeFromCart, updateQuantity, updateCartBackend } from '../../redux/f
 const CartModal = ({ products, isOpen, onClose }) => {
   const dispatch = useDispatch();
 
-  const handleQuantity = (type, _id) => {
-    dispatch(updateQuantity({ type, _id }));
-    dispatch(updateCartBackend()); 
-  };
+  const handleQuantity = (type, _id, selectedSize) => {
+  dispatch(updateQuantity({ type, _id, selectedSize }));
+  dispatch(updateCartBackend());
+};
 
-  const handleRemove = (e, _id) => {
-    e.preventDefault();
-    dispatch(removeFromCart({ _id }));
-    dispatch(updateCartBackend());
-  };
+  const handleRemove = (e, _id, selectedSize) => {
+  e.preventDefault();
+
+  dispatch(removeFromCart({ _id, selectedSize }));
+
+  dispatch(updateCartBackend());
+};
 
   return (
     <div
@@ -70,6 +72,12 @@ const CartModal = ({ products, isOpen, onClose }) => {
                     <h5 className="text-sm font-semibold text-gray-800 truncate mb-1">
                       {item.name}
                     </h5>
+
+                    {item.selectedSize && (
+                      <p className="text-xs text-gray-500 mb-2">
+                        Size: {item.selectedSize}
+                      </p>
+                    )}
                     <p className="text-primary font-bold text-sm mb-3">
                       ${Number(item.price).toFixed(2)}
                     </p>
@@ -78,7 +86,7 @@ const CartModal = ({ products, isOpen, onClose }) => {
                     <div className="flex items-center justify-between mt-auto">
                       <div className="flex items-center gap-3 px-2 py-1">
                         <button
-                          onClick={() => handleQuantity('decrement', item._id)}
+                          onClick={() => handleQuantity('decrement', item._id, item.selectedSize) }
                           className="w-6 h-6 flex items-center justify-center rounded-full bg-white border hover:bg-primary hover:text-white transition-colors text-gray-800"
                         >
                           −
@@ -87,7 +95,7 @@ const CartModal = ({ products, isOpen, onClose }) => {
                           {item.quantity}
                         </span>
                         <button
-                          onClick={() => handleQuantity('increment', item._id)}
+                          onClick={() => handleQuantity('increment', item._id, item.selectedSize) }
                           className="w-6 h-6 flex items-center justify-center rounded-full bg-white border hover:bg-primary hover:text-white transition-colors text-gray-600"
                         >
                           +
@@ -95,7 +103,7 @@ const CartModal = ({ products, isOpen, onClose }) => {
                       </div>
 
                       <button
-                        onClick={(e) => handleRemove(e, item._id)}
+                        onClick={(e) => handleRemove(e, item._id, item.selectedSize) }
                         className="text-red-500 hover:text-red-700 text-sm font-semibold"
                       >
                         Remove

@@ -92,7 +92,11 @@ const cartSlice = createSlice({
     },
 
     addToCart: (state, action) => {
-      const exists = state.products.find((p) => p._id === action.payload._id);
+      const exists = state.products.find(
+        (p) =>
+        p._id === action.payload._id &&
+        p.selectedSize === action.payload.selectedSize
+      );
       if (exists) {
         exists.quantity += 1;
       } else {
@@ -105,7 +109,13 @@ const cartSlice = createSlice({
     },
 
     removeFromCart: (state, action) => {
-      state.products = state.products.filter((p) => p._id !== action.payload._id);
+      state.products = state.products.filter(
+        (p) =>
+        !(
+        p._id === action.payload._id &&
+        p.selectedSize === action.payload.selectedSize
+        )
+      );
       state.selectedItems = calcSelectedItems(state.products);
       state.totalPrice = calcTotalPrice(state.products);
       state.tax = state.totalPrice * state.taxRate;
@@ -114,7 +124,10 @@ const cartSlice = createSlice({
 
     updateQuantity: (state, action) => {
       state.products = state.products.map((p) => {
-        if (p._id === action.payload._id) {
+        if (
+  p._id === action.payload._id &&
+  p.selectedSize === action.payload.selectedSize
+) {
           if (action.payload.type === 'increment') return { ...p, quantity: p.quantity + 1 };
           if (action.payload.type === 'decrement' && p.quantity > 1) return { ...p, quantity: p.quantity - 1 };
         }

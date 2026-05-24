@@ -13,6 +13,7 @@ const Add = () => {
   const [oldPrice, setOldPrice] = useState("");
   const [category, setCategory] = useState("Accessories");
   const [color, setColor] = useState("Black");
+  const [sizes, setSizes] = useState([]);
   const [loading, setLoading] = useState(false);
   const { user } = useSelector((state) => state.auth);
   const navigate = useNavigate();
@@ -23,6 +24,14 @@ const Add = () => {
       navigate('/'); 
     }
   }, [user, navigate]);
+
+  const toggleSize = (size) => {
+  setSizes((prev) =>
+    prev.includes(size)
+      ? prev.filter((s) => s !== size)
+      : [...prev, size]
+  );
+};
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
@@ -63,6 +72,7 @@ const Add = () => {
       formData.append("oldPrice", oldPrice || 0);
       formData.append("category", category);
       formData.append("color", color);
+      formData.append("sizes", JSON.stringify(sizes));
       formData.append("image1", image1);
 
       // console.log("Sending product data to server:");
@@ -201,6 +211,38 @@ const Add = () => {
             <option value="Gray">Gray</option>
           </select>
         </div>
+
+        {(
+  category !== "Accessories" &&
+  category !== "Cosmetics"
+) && (
+<div className='w-full'>
+  <p className='mb-2'>Available Sizes</p>
+
+  <div className='flex gap-3 flex-wrap'>
+    {(
+  category === "Footwears"
+    ? ["36", "37", "38", "39", "40", "41"]
+    : category === "Accessories" || category === "Cosmetics"
+    ? []
+    : ["XS", "S", "M", "L", "XL", "XXL"]
+).map((size) => (
+      <button
+        type="button"
+        key={size}
+        onClick={() => toggleSize(size)}
+        className={`px-4 py-2 border rounded-md transition ${
+          sizes.includes(size)
+            ? "bg-black text-white border-black"
+            : "bg-white text-black border-gray-300"
+        }`}
+      >
+        {size}
+      </button>
+    ))}
+  </div>
+</div>
+)}
 
         <button 
           type='submit' 
