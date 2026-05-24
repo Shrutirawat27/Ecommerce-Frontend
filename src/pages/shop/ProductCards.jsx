@@ -11,6 +11,8 @@ const ProductCards = ({ products }) => {
 
   const dispatch = useDispatch();
 
+  const { user } = useSelector((state) => state.auth);
+
   const wishlistProducts = useSelector(
     (state) => state.wishlist.products
   );
@@ -25,31 +27,35 @@ const ProductCards = ({ products }) => {
   };
 
   const handleWishlist = (product) => {
-    console.log("Wishlist clicked");
 
-    const exists = wishlistProducts.some(
-      (p) =>
-        String(p._id) ===
-        String(product._id)
+  if (!user) {
+    toast.error("Please login to use wishlist");
+    return;
+  }
+
+  const exists = wishlistProducts.some(
+    (p) =>
+      String(p._id) ===
+      String(product._id)
+  );
+
+  dispatch(
+    toggleWishlistAsync(product)
+  );
+
+  if (exists) {
+
+    toast.info(
+      `${product.name} removed from wishlist`
     );
 
-    dispatch(
-      toggleWishlistAsync(product)
+  } else {
+
+    toast.success(
+      `${product.name} added to wishlist`
     );
-
-    if (exists) {
-
-      toast.info(
-        `${product.name} removed from wishlist`
-      );
-
-    } else {
-
-      toast.success(
-        `${product.name} added to wishlist`
-      );
-    }
-  };
+  }
+};
 
   return (
 
@@ -107,7 +113,12 @@ const ProductCards = ({ products }) => {
 
                 handleWishlist(product);
               }}
-              className="absolute top-12 right-2 bg-white p-1.5 rounded-full shadow hover:scale-110 transition"
+              disabled={!user}
+              className={`absolute top-12 right-2 bg-white p-1.5 rounded-full shadow transition ${
+  !user
+    ? "opacity-50 cursor-not-allowed"
+    : "hover:scale-110"
+}`}
             >
 
               <Heart
