@@ -15,6 +15,8 @@ const SingleProduct = () => {
   const { _id } = useParams();
   const dispatch = useDispatch();
 
+  const { user } = useSelector((state) => state.auth);
+
   const wishlistProducts = useSelector(
   (state) => state.wishlist.products
 );
@@ -74,6 +76,11 @@ const SingleProduct = () => {
   if (!product) return <p className="text-center text-gray-600 my-8">Product not found</p>;
 
   const handleWishlist = () => {
+
+  if (!user) {
+    toast.error("Please login to use wishlist");
+    return;
+  }
 
   dispatch(toggleWishlistAsync(product));
 
