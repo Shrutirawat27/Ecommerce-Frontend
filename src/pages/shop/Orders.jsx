@@ -9,39 +9,22 @@ const Orders = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const getCurrentUserId = () => {
-    try {
-      const token = localStorage.getItem("token");
-      if (!token) return null;
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      return payload.userId;
-    } catch (err) {
-      console.error("Error decoding token:", err);
-      return null;
-    }
-  };
-
   const fetchOrders = useCallback(async () => {
     try {
-      const token = localStorage.getItem("token");
-      if (!token) throw new Error('Authentication required');
 
       const response = await fetch(`${getBaseUrl()}/api/orders`, {
-        method: "GET",
-        headers: {
-          "Authorization": `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+  method: "GET",
+  credentials: "include",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
 
       if (!response.ok) throw new Error('Failed to fetch orders');
 
       const data = await response.json();
 
-      const currentUserId = getCurrentUserId();
-      const filteredOrders = data.filter(order => order.userId._id === currentUserId);
-
-      dispatch(setOrders(filteredOrders));
+      dispatch(setOrders(data));
       setError(null);
       return true;
     } catch (error) {
@@ -81,6 +64,12 @@ const Orders = () => {
     if (!dateString) return 'N/A';
     return new Date(dateString).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
   };
+
+  const getStepStatus = (currentStatus, step) => {
+  const steps = ["Pending", "Shipped", "Delivered"];
+
+  return steps.indexOf(currentStatus || "Pending") >= steps.indexOf(step);
+};
 
   if (loading) {
     return (
@@ -157,6 +146,74 @@ const Orders = () => {
             </div>
 
             <div className="bg-gray-50 px-6 py-4 flex justify-between items-center">
+              <div className="mb-6 w-full">
+  <div className="flex items-center justify-between relative">
+
+    {/* Line */}
+    <div className="absolute top-4 left-0 w-full h-1 bg-gray-200 z-0"></div>
+
+    <div
+      className={`absolute top-4 left-0 h-1 z-0 transition-all duration-500 ${
+        order.status === "Delivered"
+          ? "w-full bg-green-500"
+          : order.status === "Shipped"
+          ? "w-1/2 bg-blue-500"
+          : "w-0 bg-yellow-500"
+      }`}
+    ></div>
+
+    {/* Step 1 */}
+    <div className="relative z-10 flex flex-col items-center w-1/3">
+      <div
+        className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold ${
+          getStepStatus(order.status, "Pending")
+            ? "bg-yellow-500"
+            : "bg-gray-300"
+        }`}
+      >
+        ✓
+      </div>
+
+      <p className="text-xs mt-2 font-medium">
+        Order Placed
+      </p>
+    </div>
+
+    {/* Step 2 */}
+    <div className="relative z-10 flex flex-col items-center w-1/3">
+      <div
+        className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold ${
+          getStepStatus(order.status, "Shipped")
+            ? "bg-blue-500"
+            : "bg-gray-300"
+        }`}
+      >
+        ✓
+      </div>
+
+      <p className="text-xs mt-2 font-medium">
+        Shipped
+      </p>
+    </div>
+
+    {/* Step 3 */}
+    <div className="relative z-10 flex flex-col items-center w-1/3">
+      <div
+        className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold ${
+          getStepStatus(order.status, "Delivered")
+            ? "bg-green-500"
+            : "bg-gray-300"
+        }`}
+      >
+        ✓
+      </div>
+
+      <p className="text-xs mt-2 font-medium">
+        Delivered
+      </p>
+    </div>
+  </div>
+</div>
               <div>
                 <p className="text-sm font-medium">Total: <span className="text-lg font-bold">{currency} {order.totalAmount?.toFixed(2) || "0.00"}</span></p>
               </div>
