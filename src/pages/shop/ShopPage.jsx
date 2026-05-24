@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import ProductCards from './ProductCards';
 import ShopFiltering from './ShopFiltering';
 import Loader from '/src/components/Loader'; 
@@ -20,7 +20,20 @@ const filters = {
   ],
 };
 
+
+
 const ShopPage = () => {
+
+  useEffect(() => {
+
+  document.title = "Shop — HerStyle";
+
+  return () => {
+    document.title = "HerStyle";
+  };
+
+}, []);
+
   const [filtersState, setFiltersState] = useState({
     category: 'all',
     color: 'all',
@@ -115,7 +128,36 @@ const ShopPage = () => {
                   Showing {startProduct} to {endProduct} of {totalProducts} products
                 </h3>
 
-                <ProductCards products={products} />
+                {products.length > 0 ? (
+
+  <ProductCards products={products} />
+
+) : (
+
+  <div className="flex flex-col items-center justify-center py-20 text-center">
+
+    <div className="text-6xl mb-4">
+      🛍️
+    </div>
+
+    <h3 className="text-2xl font-semibold mb-2">
+      No Products Found
+    </h3>
+
+    <p className="text-gray-500 mb-6 max-w-md">
+      Try adjusting your filters or browse all products instead.
+    </p>
+
+    <button
+      onClick={clearFilters}
+      className="bg-black text-white px-6 py-3 rounded-md hover:bg-gray-800 transition"
+    >
+      Clear Filters
+    </button>
+
+  </div>
+
+)}
               </>
             )}
           </div>
@@ -133,20 +175,45 @@ const ShopPage = () => {
             </button>
           )}
 
-          {[...Array(totalPages)].map((_, i) => {
-            const page = i + 1;
-            return (
-              <button
-                key={page}
-                onClick={() => handlePageChange(page)}
-                className={`pagination-btn px-4 py-2 rounded ${
-                  currentPage === page
-                    ? '!bg-primary !text-white'
-                    : 'bg-gray-200 hover:bg-gray-300'}`}>
-                {page}
-              </button>
-            );
-          })}
+          {[...Array(totalPages)]
+  .map((_, i) => i + 1)
+  .filter((page) => {
+
+    if (totalPages <= 5) return true;
+
+    return (
+      page === 1 ||
+      page === totalPages ||
+      Math.abs(page - currentPage) <= 1
+    );
+  })
+  .map((page, index, array) => {
+
+    const prevPage = array[index - 1];
+
+    return (
+      <React.Fragment key={page}>
+
+        {prevPage && page - prevPage > 1 && (
+          <span className="px-2 py-2">
+            ...
+          </span>
+        )}
+
+        <button
+          onClick={() => handlePageChange(page)}
+          className={`pagination-btn px-4 py-2 rounded ${
+            currentPage === page
+              ? '!bg-primary !text-white'
+              : 'bg-gray-200 hover:bg-gray-300'
+          }`}
+        >
+          {page}
+        </button>
+
+      </React.Fragment>
+    );
+  })}
 
           {currentPage < totalPages && (
             <button

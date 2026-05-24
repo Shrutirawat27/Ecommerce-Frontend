@@ -31,6 +31,18 @@ const SingleProduct = () => {
     fetchProduct();
   }, [_id]);
 
+  useEffect(() => {
+
+  if (product?.name) {
+    document.title = `${product.name} — HerStyle`;
+  }
+
+  return () => {
+    document.title = "HerStyle";
+  };
+
+}, [product]);
+
   const fetchProduct = async () => {
     setLoading(true);
     try {
@@ -110,13 +122,19 @@ const SingleProduct = () => {
 
       <section className="section__container mt-8">
         <div className="flex flex-col md:flex-row items-center gap-8">
-          <div className="md:w-1/2 w-full">
-            <img
-              src={product?.image1 || "/placeholder.jpg"}
-              alt={product?.name || "Product"}
-              className="product__image w-full max-h-[500px] object-contain"
-            />
-          </div>
+          <div className="md:w-1/2 w-full overflow-hidden rounded-xl">
+
+  <div className="overflow-hidden rounded-xl cursor-zoom-in">
+
+    <img
+      src={product?.image1 || "/placeholder.jpg"}
+      alt={product?.name || "Product"}
+      className="product__image w-full max-h-[500px] object-contain transition-transform duration-500 hover:scale-110"
+    />
+
+  </div>
+
+</div>
 
           <div className="md:w-1/2 w-full">
             <h3 className="text-2xl font-semibold mb-4">{product.name}</h3>

@@ -7,22 +7,22 @@ const cards = [
 {
     _id: 1,
     image: card1,
-    trend: "2025 Trend",
-    title: "Womens Shirt"
+    trend: "Trending Now",
+    title: "Women's Shirt"
 },
 
 {
     _id: 2,
     image: card2,
-    trend: "2025 Trend",
-    title: "Womens Dresses"
+    trend: "New Collection",
+    title: "Women's Dresses"
 },
 
 {
     _id: 3,
     image: card3,
-    trend: "2025 Trend",
-    title: "Womens Casuals"
+    trend: "Best Sellers",
+    title: "Women's Casuals"
 }
 ]
 const HeroSection = () => {
