@@ -177,26 +177,32 @@ const SingleProduct = () => {
             </div>
           )}
 
-            <button
-              onClick={handleAddToCart}
-              className="mt-6 px-6 py-3 bg-primary text-white rounded-md hover:bg-primary-dark">
-              Add to Cart
-            </button>
+            <div className="flex items-center gap-4 mt-6">
 
-            <button
-              onClick={handleWishlist}
-              className="mt-4 ml-4 px-5 py-3 border border-gray-300 rounded-md hover:bg-gray-100 transition">
-            <Heart
-              size={20}
-              className={
-              wishlistProducts.find(
-               (p) => p._id === product._id
-                )
-                ? "fill-red-500 text-red-500"
-                : "text-gray-700"
-                }
-              />
-            </button>
+  <button
+    onClick={handleAddToCart}
+    className="px-6 py-3 bg-primary text-white rounded-md hover:bg-primary-dark transition"
+  >
+    Add to Cart
+  </button>
+
+  <button
+    onClick={handleWishlist}
+    className="h-[48px] w-[48px] flex items-center justify-center border border-gray-300 rounded-md hover:bg-gray-100 transition"
+  >
+    <Heart
+      size={20}
+      className={
+        wishlistProducts.find(
+          (p) => p._id === product._id
+        )
+          ? "fill-red-500 text-red-500"
+          : "text-gray-700"
+      }
+    />
+  </button>
+
+</div>
           </div>
         </div>
       </section>
