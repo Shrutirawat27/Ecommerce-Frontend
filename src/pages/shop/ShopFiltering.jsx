@@ -24,7 +24,6 @@ const FiltersContent = React.memo(
 
     return (
       <div className="space-y-5 flex-shrink-0 p-4 bg-white border rounded-md shadow-md">
-        <h3 className="text-xl font-semibold mb-4">Filters</h3>
 
         {/* Category */}
         <div className="flex flex-col space-y-2">
