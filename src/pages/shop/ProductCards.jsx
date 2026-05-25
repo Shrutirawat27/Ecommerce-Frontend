@@ -77,7 +77,7 @@ const ProductCards = ({ products }) => {
 
                 <img
                   src={product.image1}
-                  alt={product.name || 'Product image'}
+                  alt={product.name || 'Fashion product'}
                   loading="lazy"
                   className="w-full h-full object-cover hover:scale-105 transition duration-300"
                 />

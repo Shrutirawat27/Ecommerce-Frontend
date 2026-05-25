@@ -128,7 +128,7 @@ const SingleProduct = () => {
 
     <img
       src={product?.image1 || "/placeholder.jpg"}
-      alt={product?.name || "Product"}
+      alt={product?.name || "Fashion product"}
       className="product__image w-full max-h-[500px] object-contain transition-transform duration-500 hover:scale-110"
     />
 

@@ -31,7 +31,7 @@ const HeroSection = () => {
       {
         cards.map((card) => (
             <div key={card._id} className='hero__card'>
-                <img src={card.image} alt="Card image" />
+                <img src={card.image} alt={`${card.title} collection`} />
                 <div className='hero__content'>
                     <p>{card.trend}</p>
                     <h4>{card.title}</h4>
