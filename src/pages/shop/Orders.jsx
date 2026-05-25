@@ -130,8 +130,11 @@ const Orders = () => {
 
             <div className="px-6 py-4">
               {order.products?.map((product, i) => (
-                <div key={`${order._id}-${i}`} className="flex py-4 border-b last:border-0">
-                  <div className="w-20 h-20 flex-shrink-0 bg-gray-100 rounded overflow-hidden">
+                <div
+  key={`${order._id}-${i}`}
+  className="flex items-start gap-3 py-4 border-b last:border-0" >
+
+                  <div className="w-24 sm:w-20 h-24 sm:h-20 flex-shrink-0 bg-gray-100 rounded overflow-hidden">
                     <img src={product.image || product.productId?.image1 || "/default-product.png"} alt={ product.name || product.productId?.name || "Ordered fashion product" } className="w-full h-full object-cover"/>
                   </div>
                   <div className="ml-4 flex-grow">
@@ -145,8 +148,8 @@ const Orders = () => {
               ))}
             </div>
 
-            <div className="bg-gray-50 px-6 py-4 flex justify-between items-center">
-              <div className="mb-6 w-full">
+            <div className="bg-gray-50 px-4 sm:px-6 py-4 flex flex-col gap-5 md:flex-row md:justify-between md:items-center">
+              <div className="w-full md:flex-1">
   <div className="flex items-center justify-between relative">
 
     {/* Line */}
@@ -217,7 +220,7 @@ const Orders = () => {
               <div>
                 <p className="text-sm font-medium">Total: <span className="text-lg font-bold">{currency} {order.totalAmount?.toFixed(2) || "0.00"}</span></p>
               </div>
-              <div className="text-sm flex items-center">
+              <div className="text-sm flex items-center gap-2">
                 <span className="mr-2 text-gray-500">Status:</span>
                 <span className={`font-medium px-2 py-1 rounded-full text-xs ${
                   order.status === 'Delivered' ? 'bg-green-100 text-green-800' :

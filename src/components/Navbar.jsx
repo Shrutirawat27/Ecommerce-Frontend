@@ -167,14 +167,8 @@ const Navbar = () => {
                         )}
                         <li><Link to="/about" onClick={() => setIsMobileMenuOpen(false)}>ABOUT</Link></li>
                         <li><Link to="/contact" onClick={() => setIsMobileMenuOpen(false)}>CONTACT</Link></li>
-                        {!isAdmin && user && userDropDownMenus.map((menu, i) => (
-                            <li key={i}><Link to={menu.path} onClick={() => setIsMobileMenuOpen(false)}>{menu.label}</Link></li>
-                        ))}
-                        {user ? (
-                            <li><button onClick={handleLogout} className="text-left w-full">LOGOUT</button></li>
-                        ) : (
                             <li><Link to="/login" onClick={() => setIsMobileMenuOpen(false)}>LOGIN</Link></li>
-                        )}
+                    
                     </ul>
                 </div>
             )}
