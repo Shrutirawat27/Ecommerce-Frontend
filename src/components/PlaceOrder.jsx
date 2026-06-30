@@ -59,13 +59,11 @@ const PlaceOrder = () => {
       }
     });
 
-    // Validate email format
     if (formData.email && !/\S+@\S+\.\S+/.test(formData.email)) {
       errors.email = 'Please enter a valid email address';
       isValid = false;
     }
 
-    // Check if cart is empty
     if (products.length === 0) {
       alert('Your cart is empty. Please add products before placing an order.');
       return false;
@@ -80,13 +78,8 @@ const PlaceOrder = () => {
       setIsSubmitting(true);
       
       try {
-        const token = localStorage.getItem("token");
-        
-        if (!token) {
-          alert("Please log in to place an order");
-          navigate('/login');
-          return;
-        }
+        // We removed the localStorage check here.
+        // The secure HTTP-only cookie will be sent automatically.
 
         if (!user) {
           console.error("User data is missing from Redux store");
@@ -100,22 +93,8 @@ const PlaceOrder = () => {
           userId = user.user._id;
         }
 
-        if (!userId) {
-          userId = localStorage.getItem("userId");
-          console.log("Using userId from localStorage:", userId);
-        }
-
-        if (!userId) {
-          const userFromStorage = localStorage.getItem("user");
-          try {
-            const parsedUser = JSON.parse(userFromStorage);
-            userId = parsedUser?._id || parsedUser?.user?._id;
-            console.log("Extracted userId from localStorage user object:", userId);
-          } catch (error) {
-            console.error("Failed to parse user from localStorage:", error);
-          }
-        }
-
+        // Removed localStorage fallback for userId. 
+        // We should strictly rely on Redux state for the user context.
         if (!userId) {
           console.error("Cannot find valid user ID for order");
           alert("Unable to identify your account. Please log out and log in again.");
@@ -128,9 +107,10 @@ const PlaceOrder = () => {
           console.log("Attempting debug checkout first");
           const debugResponse = await fetch(`${getBaseUrl()}/api/orders/checkout-debug`, {
             method: "POST",
+            credentials: "include", // <-- Added to send HTTP-only cookies
             headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${token}`
+              "Content-Type": "application/json"
+              // Removed Authorization header
             },
             body: JSON.stringify({
               userId,
@@ -156,7 +136,6 @@ const PlaceOrder = () => {
           });
           
           const debugData = await debugResponse.json();
-          // console.log("Debug checkout response:", debugData);
           
           if (!debugData.isValidObjectId) {
             console.error("Invalid user ID format detected in debug mode");
@@ -197,9 +176,10 @@ const PlaceOrder = () => {
 
         const response = await fetch(`${getBaseUrl()}/api/orders`, {
           method: "POST",
+          credentials: "include", // <-- Added to send HTTP-only cookies
           headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
+            "Content-Type": "application/json"
+            // Removed Authorization header
           },
           body: JSON.stringify(orderData)
         });
